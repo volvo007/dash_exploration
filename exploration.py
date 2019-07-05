@@ -22,7 +22,7 @@ CACHE_CONFIG = {
     # 'CACHE_TYPE': 'redis',
     # 'CACHE_REDIS_URL': os.environ.get('REDIS_URL', 'localhost:6379')
     'CACHE_TYPE': 'filesystem',
-    'CACHE_DIR': r'C:\Users\duska\Desktop\Dash_online\tmp'
+    'CACHE_DIR': r'./tmp'
 }
 cache = Cache()
 cache.init_app(app.server, config=CACHE_CONFIG)
