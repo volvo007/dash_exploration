@@ -6,7 +6,7 @@ Right now, the script "uplod.py" is already archived. You can run this script un
 
 It will give an interface like below:
 
-![initial interface](./interface.jpg "Demo")
+![initial interface](./interface1.jpg "Demo")
 
 You can then upload any Excel or CSV table (must have no empty rows at the beginnig) and you can choose any features you're interested then to check the scatter chart which generated automatically.
 
