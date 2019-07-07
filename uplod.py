@@ -28,6 +28,7 @@ auth = dash_auth.BasicAuth(
 # available_indicators = df['Indicator Name'].unique()
 
 app.layout = html.Div([
+    html.H2('Step 1. Upload an excel or csv file.'),
 	# Upload component
     dcc.Upload(
         id='upload-data',
@@ -45,6 +46,7 @@ app.layout = html.Div([
     ),
 
     # xaxis, need lower limitation or not, limitation value
+    html.H2('Step 2. Choose the xaxis and yaxis.'),
     html.Div([
         dcc.Dropdown(
             id='xaxis-column',
@@ -103,9 +105,6 @@ app.layout = html.Div([
                 'padding': '10px', 'margin': '5px 5px'}),
             ],
     style={'width': '48%', 'display': 'inline-block'}),
-
-
-
     html.Div(id='output-data-upload'),
 ])
 
@@ -182,8 +181,8 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal
                         ])
 
     return html.Div([
-        html.H5(filename),
-        html.H6(datetime.datetime.fromtimestamp(states)),
+        html.H5('Filename: {}'.format(filename)),
+        html.H5('Last modified: {}'.format(str(datetime.datetime.fromtimestamp(states))[:-7])),
 	    dcc.Graph(
 	    	figure={
 	         'data': traces,
