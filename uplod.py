@@ -36,14 +36,9 @@ app.layout = html.Div([
             html.A('Select Files')
         ]),
         style={
-            'width': '90%',
-            'height': '60px',
-            'lineHeight': '60px',
-            'borderWidth': '2px',
-            'borderStyle': 'dashed',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '20px'
+            'width': '95%', 'height': '60px', 'lineHeight': '60px',
+            'borderWidth': '2px', 'borderStyle': 'dashed', 'borderRadius': '5px',
+            'textAlign': 'center', 'margin': '20px'
         },
         # Allow multiple files to be uploaded
         multiple=False,
@@ -56,19 +51,26 @@ app.layout = html.Div([
             # options=options,
             value='',
             # value='ENGINE KM'
+            placeholder='Select a feature as xaxis...'
         ),
-        dcc.RadioItems(
-            id='min-limit-value',
-            options=[{'label': i, 'value': i} for i in ['Lower-Limit', 'No Need']],
-            value='No Need',
-            labelStyle={'display': 'inline-block'}
+        html.Div([
+            html.H5('Need Lower-limitation?'),
+            dcc.RadioItems(
+                id='min-limit-value',
+                options=[{'label': i, 'value': i} for i in ['Lower-Limit', 'No Need']],
+                value='No Need',
+                labelStyle={'display': 'inline-block'}
         ),
-        dcc.Input(
-        	id='min-lim-value',
-    		placeholder='Enter a value...',
-    		type='text',
-    		value=''
+            dcc.Input(
+                id='min-lim-value',
+                placeholder='Enter a value...',
+                type='text',
+                value=''
 		),
+        ],
+            style={'border': '2px dashed #999', 'borderRadius': '5px', 
+                    'padding': '10px', 'margin': '5px 5px'}
+        )
     ],
     style={'width': '48%', 'display': 'inline-block'}),
 
@@ -79,22 +81,29 @@ app.layout = html.Div([
             # options=options,
             value='',
             # value='Iron ppm FE',
+            placeholder='Select features as yaxis...',
             multi=True
         ),
-        dcc.RadioItems(
-            id='upper-limit-value',
-            options=[{'label': i, 'value': i} for i in ['Upper-Limit', 'No Need']],
-            value='No Need',
-            labelStyle={'display': 'inline-block'}
-        ),
-        dcc.Input(
-        	id='max-lim-value',
-    		placeholder='Enter a value...',
-    		type='text',
-    		value=''
-		),
-    ],
+        html.Div([
+            html.H5('Need Upper-limitation?'),
+            dcc.RadioItems(
+                id='upper-limit-value',
+                options=[{'label': i, 'value': i} for i in ['Upper-Limit', 'No Need']],
+                value='No Need',
+                labelStyle={'display': 'inline-block'}
+            ),
+            dcc.Input(
+                id='max-lim-value',
+                placeholder='Enter a value...',
+                type='text',
+                value=''
+		    )],
+            style={
+                'border': '2px dashed #999', 'borderRadius': '5px', 
+                'padding': '10px', 'margin': '5px 5px'}),
+            ],
     style={'width': '48%', 'display': 'inline-block'}),
+
 
 
     html.Div(id='output-data-upload'),
@@ -202,47 +211,53 @@ def update_output(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal,
 			  [Input('upload-data', 'contents')],
 			  [State('upload-data', 'filename'),])
 def get_available_indicators(contents, filename):
-    content_type, content_string = contents.split(',')
-    decoded = base64.b64decode(content_string)
-    try:
-        if 'csv' in filename:
-            # Assume that the user uploaded a CSV file
-            df = pd.read_csv(
-                io.StringIO(decoded.decode('utf-8')))
-        elif 'xls' in filename:
-            # Assume that the user uploaded an excel file
-            df = pd.read_excel(io.BytesIO(decoded))
-    except Exception as e:
-        print(e)
-        return html.Div([
-            'There was an error processing this file.'
-        ])
-    available_indicators = list(df.columns)
-    options=[{'label': i, 'value': i} for i in available_indicators]
-    return options
+    if contents is not None:
+        content_type, content_string = contents.split(',')
+        decoded = base64.b64decode(content_string)
+        try:
+            if 'csv' in filename:
+                # Assume that the user uploaded a CSV file
+                df = pd.read_csv(
+                    io.StringIO(decoded.decode('utf-8')))
+            elif 'xls' in filename:
+                # Assume that the user uploaded an excel file
+                df = pd.read_excel(io.BytesIO(decoded))
+        except Exception as e:
+            print(e)
+            return html.Div([
+                'There was an error processing this file.'
+            ])
+        available_indicators = list(df.columns)
+        options=[{'label': i, 'value': i} for i in available_indicators]
+        return options
+    else:
+        return ''
 
 @app.callback(Output('yaxis-column', 'options'),
 			  [Input('upload-data', 'contents')],
 			  [State('upload-data', 'filename')])
 def get_available_indicators1(contents, filename):
-    content_type, content_string = contents.split(',')
-    decoded = base64.b64decode(content_string)
-    try:
-        if 'csv' in filename:
-            # Assume that the user uploaded a CSV file
-            df = pd.read_csv(
-                io.StringIO(decoded.decode('utf-8')))
-        elif 'xls' in filename:
-            # Assume that the user uploaded an excel file
-            df = pd.read_excel(io.BytesIO(decoded))
-    except Exception as e:
-        print(e)
-        return html.Div([
-            'There was an error processing this file.'
-        ])
-    available_indicators = list(df.columns)
-    options=[{'label': i, 'value': i} for i in available_indicators]
-    return options
+    if contents is not None:
+        content_type, content_string = contents.split(',')
+        decoded = base64.b64decode(content_string)
+        try:
+            if 'csv' in filename:
+                # Assume that the user uploaded a CSV file
+                df = pd.read_csv(
+                    io.StringIO(decoded.decode('utf-8')))
+            elif 'xls' in filename:
+                # Assume that the user uploaded an excel file
+                df = pd.read_excel(io.BytesIO(decoded))
+        except Exception as e:
+            print(e)
+            return html.Div([
+                'There was an error processing this file.'
+            ])
+        available_indicators = list(df.columns)
+        options=[{'label': i, 'value': i} for i in available_indicators]
+        return options
+    else:
+        return ''
 
 if __name__ == '__main__':
     app.run_server(debug=True)
