@@ -8,6 +8,7 @@ from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
+from flask_caching import Cache
 
 import pandas as pd
 import plotly.graph_objs as go
@@ -24,6 +25,15 @@ auth = dash_auth.BasicAuth(
     app,
     VALID_USERNAME_PASSWORD_PAIRS
 )
+CACHE_CONFIG = {
+    # try 'filesystem' if you don't want to setup redis
+    # 'CACHE_TYPE': 'redis',
+    # 'CACHE_REDIS_URL': os.environ.get('REDIS_URL', 'localhost:6379')
+    'CACHE_TYPE': 'filesystem',
+    'CACHE_DIR': r'./tmp'
+}
+cache = Cache()
+cache.init_app(app.server, config=CACHE_CONFIG)
  
 # available_indicators = df['Indicator Name'].unique()
 
