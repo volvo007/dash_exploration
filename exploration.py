@@ -41,14 +41,9 @@ app.layout = html.Div([
             html.A('Select Files')
         ]),
         style={
-            'width': '90%',
-            'height': '60px',
-            'lineHeight': '60px',
-            'borderWidth': '2px',
-            'borderStyle': 'dashed',
-            'borderRadius': '5px',
-            'textAlign': 'center',
-            'margin': '20px'
+            'width': '90%', 'height': '60px', 'lineHeight': '60px',
+            'borderWidth': '2px', 'borderStyle': 'dashed', 'borderRadius': '5px',
+            'textAlign': 'center', 'margin': '20px'
         },
         # Allow multiple files to be uploaded
         multiple=False,

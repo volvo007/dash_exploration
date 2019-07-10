@@ -146,7 +146,7 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal
     							x=df.loc[:, xName],
     							y=df.loc[:, i],
     							mode='markers',
-    							marker={'size': 12, 'opacity': 0.5,
+    							marker={'size': 10, 'opacity': 0.65,
     									'line': {'width': 0.5, 'color': 'white'}},
     							name=i,
     		))
