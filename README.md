@@ -8,28 +8,27 @@ It will give an interface like below:
 
 ![initial interface](./interface1.jpg "Demo")
 
-You can then upload any Excel or CSV table (must have no empty rows at the beginnig) and you can choose any features you're interested then to check the scatter chart which generated automatically.
+You can then upload any Excel or CSV table (must have no empty rows at the beginnig) and you can choose any features you're interested then to check the chart which generated automatically.
 
 The file "exploration.py", which focusing on flash_cache usage, is still under developing.
 
+### Update Log
 ----------
+V0.2 7/12/2019
+Add a function that be able to choose the type of the chart: scatter/line only, or scatter+line
 
+V0.1 7/1/2019:
+The first version of the tool.
+
+----------
 Necessary libraries (latest version after 7/1/2019):
 
 numpy
-
 pandas
-
 plotly
-
 dash
-
 dash_core_components
-
 dash_core_html
-
 dash_auth
-
 dash_table
-
 flask_caching
