@@ -8,6 +8,7 @@ from dash.dependencies import Input, Output, State
 import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
+from flask_caching import Cache
 
 import pandas as pd
 import plotly.graph_objs as go
@@ -24,12 +25,21 @@ auth = dash_auth.BasicAuth(
     app,
     VALID_USERNAME_PASSWORD_PAIRS
 )
+CACHE_CONFIG = {
+    # try 'filesystem' if you don't want to setup redis
+    # 'CACHE_TYPE': 'redis',
+    # 'CACHE_REDIS_URL': os.environ.get('REDIS_URL', 'localhost:6379')
+    'CACHE_TYPE': 'filesystem',
+    'CACHE_DIR': r'./tmp'
+}
+cache = Cache()
+cache.init_app(app.server, config=CACHE_CONFIG)
  
 # available_indicators = df['Indicator Name'].unique()
 
 app.layout = html.Div([
     html.H2('Step 1. Upload an excel or csv file.'),
-	# Upload component
+    # Upload component
     dcc.Upload(
         id='upload-data',
         children=html.Div([
@@ -68,7 +78,7 @@ app.layout = html.Div([
                 placeholder='Enter a value...',
                 type='text',
                 value=''
-		),
+        ),
         ],
             style={'border': '2px dashed #999', 'borderRadius': '5px', 
                     'padding': '10px', 'margin': '5px 5px'}
@@ -99,18 +109,30 @@ app.layout = html.Div([
                 placeholder='Enter a value...',
                 type='text',
                 value=''
-		    )],
+            )],
             style={
                 'border': '2px dashed #999', 'borderRadius': '5px', 
                 'padding': '10px', 'margin': '5px 5px'}),
             ],
     style={'width': '48%', 'display': 'inline-block'}),
+
+    html.Div([
+        html.H5('Choose the type of the chart: scatter or line?'),
+        dcc.Dropdown(
+            id='scatter-mode',
+            value='markers',
+            options=[{'label': i, 'value': j} for i, j in 
+                        zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])]
+        )
+    ],
+        style={'width': '48%'}),
+
     html.Div(id='output-data-upload'),
 ])
 
-
 # get useful data from dataset
-def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal, filename, states):
+def parse_contents(contents, xName, minLim, minLimVal, yNames, 
+                    maxLim, maxLimVal, marker_mode, filename, states):
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
     try:
@@ -131,27 +153,32 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal
     traces = []
     # print(yNames)
     # print(df.columns)
+    if marker_mode == 'markers':
+        marker = {'size': 10, 'opacity': 0.65, 'line': {'width': 0.5, 'color': 'white'}}
+    else:
+        marker = {'size': 7, 'opacity': 0.65}
     for i in yNames:
-    	traces.append(go.Scatter(
-    							x=df.loc[:, xName],
-    							y=df.loc[:, i],
-    							mode='markers',
-    							marker={'size': 12, 'opacity': 0.5,
-    									'line': {'width': 0.5, 'color': 'white'}},
-    							name=i,
-    		))
+        traces.append(go.Scatter(
+                                x=df.loc[:, xName],
+                                y=df.loc[:, i],
+                                mode=marker_mode,
+                                marker=marker,
+                                opacity=0.7,
+                                # marker={'size': 10, 'opacity': 0.65, 'line': {'width': 0.5, 'color': 'white'}},
+                                name=i,
+            ))
 
     # 根据 minLim等的情况，决定是否加线
     # plt.vlines(0, 0, 0.5, colors = "c", linestyles = "dashed")
     # plotly 里面加线：https://plot.ly/python/shapes/
     if (minLim == 'No Need') & (maxLim == 'No Need'):
-    	    layout = go.Layout(xaxis={'title': xName},
-    					margin={'l': 40, 'r':20, 't':20, 'b':30},
-    					hovermode='closest')
+            layout = go.Layout(xaxis={'title': xName},
+                        margin={'l': 40, 'r':20, 't':20, 'b':30},
+                        hovermode='closest')
     if (minLim != 'No Need') & (maxLim == 'No Need'):
             layout = go.Layout(xaxis={'title': xName},
-    					margin={'l': 40, 'r':20, 't':20, 'b':30},
-    					hovermode='closest',
+                        margin={'l': 40, 'r':20, 't':20, 'b':30},
+                        hovermode='closest',
                         shapes=[
                             {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': minLimVal, 
                             'x1': max(df[xName])*1.1, 'y1': minLimVal,
@@ -159,8 +186,8 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal
                         ])
     if (minLim == 'No Need') & (maxLim != 'No Need'):
             layout = go.Layout(xaxis={'title': xName},
-    					margin={'l': 40, 'r':20, 't':20, 'b':30},
-    					hovermode='closest',
+                        margin={'l': 40, 'r':20, 't':20, 'b':30},
+                        hovermode='closest',
                         shapes=[
                             {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': maxLimVal, 
                             'x1': max(df[xName])*1.1, 'y1': maxLimVal,
@@ -168,8 +195,8 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal
                         ])
     if (minLim != 'No Need') & (maxLim != 'No Need'):
             layout = go.Layout(xaxis={'title': xName},
-    					margin={'l': 40, 'r':20, 't':20, 'b':30},
-    					hovermode='closest',
+                        margin={'l': 40, 'r':20, 't':20, 'b':30},
+                        hovermode='closest',
                         shapes=[
                             {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': maxLimVal, 
                             'x1': max(df[xName])*1.1, 'y1': maxLimVal,
@@ -183,32 +210,31 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal
     return html.Div([
         html.H5('Filename: {}'.format(filename)),
         html.H5('Last modified: {}'.format(str(datetime.datetime.fromtimestamp(states))[:-7])),
-	    dcc.Graph(
-	    	figure={
-	         'data': traces,
-	         'layout': layout,}
-	    	)
+        dcc.Graph(
+            figure={
+             'data': traces,
+             'layout': layout,}
+            )
     ])
 
 @app.callback(Output('output-data-upload', 'children'),
-			 [Input('upload-data', 'contents'),
-			  Input('xaxis-column', 'value'),
-			  Input('min-limit-value', 'value'),
-			  Input('min-lim-value', 'value'),
-			  Input('yaxis-column', 'value'),
-			  Input('upper-limit-value', 'value'),
-			  Input('max-lim-value', 'value')],
-			 [State('upload-data', 'filename'),
-			  State('upload-data', 'last_modified')])
-def update_output(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal, filename, states):
-	if contents is not None:
-		children = parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal, filename, states)
-		return children
+             [Input('upload-data', 'contents'), Input('xaxis-column', 'value'),
+              Input('min-limit-value', 'value'), Input('min-lim-value', 'value'),
+              Input('yaxis-column', 'value'), Input('upper-limit-value', 'value'),
+              Input('max-lim-value', 'value'), Input('scatter-mode', 'value')],
+             [State('upload-data', 'filename'),
+              State('upload-data', 'last_modified')])
+def update_output(contents, xName, minLim, minLimVal, yNames, 
+                    maxLim, maxLimVal, marker_mode, filename, states):
+    if contents is not None:
+        children = parse_contents(contents, xName, minLim, minLimVal, yNames, 
+                                    maxLim, maxLimVal, marker_mode, filename, states)
+        return children
 
 
 @app.callback(Output('xaxis-column', 'options'),
-			  [Input('upload-data', 'contents')],
-			  [State('upload-data', 'filename'),])
+              [Input('upload-data', 'contents')],
+              [State('upload-data', 'filename'),])
 def get_available_indicators(contents, filename):
     if contents is not None:
         content_type, content_string = contents.split(',')
@@ -233,8 +259,8 @@ def get_available_indicators(contents, filename):
         return ''
 
 @app.callback(Output('yaxis-column', 'options'),
-			  [Input('upload-data', 'contents')],
-			  [State('upload-data', 'filename')])
+              [Input('upload-data', 'contents')],
+              [State('upload-data', 'filename')])
 def get_available_indicators1(contents, filename):
     if contents is not None:
         content_type, content_string = contents.split(',')
