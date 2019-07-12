@@ -12,8 +12,10 @@ def cleanup(df):
         df["KV @ 100 D445"] = pd.to_numeric(df[""], errors='coerce')
         df = df[~df["OIL KM's"].isnull()]
         df.dropna(how='all', inplace=True)
+        df.replace('<(.*)', r'\1', regex=True, inplace=True)
     else:
         df.dropna(how='all', inplace=True)
+        df.replace('<(.*)', r'\1', regex=True, inplace=True)
     return df
 
 def generate_chart(spec_df, mode_name, class_name):

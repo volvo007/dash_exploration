@@ -115,12 +115,24 @@ app.layout = html.Div([
                 'padding': '10px', 'margin': '5px 5px'}),
             ],
     style={'width': '48%', 'display': 'inline-block'}),
+
+    html.Div([
+        html.H5('Choose the type of the chart: scatter or line?'),
+        dcc.Dropdown(
+            id='scatter-mode',
+            value='markers',
+            options=[{'label': i, 'value': j} for i, j in 
+                        zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])]
+        )
+    ],
+        style={'width': '48%'}),
+
     html.Div(id='output-data-upload'),
 ])
 
-
 # get useful data from dataset
-def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal, filename, states):
+def parse_contents(contents, xName, minLim, minLimVal, yNames, 
+                    maxLim, maxLimVal, marker_mode, filename, states):
     content_type, content_string = contents.split(',')
     decoded = base64.b64decode(content_string)
     try:
@@ -141,13 +153,18 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal
     traces = []
     # print(yNames)
     # print(df.columns)
+    if marker_mode == 'markers':
+        marker = {'size': 10, 'opacity': 0.65, 'line': {'width': 0.5, 'color': 'white'}}
+    else:
+        marker = {'size': 7, 'opacity': 0.65}
     for i in yNames:
     	traces.append(go.Scatter(
     							x=df.loc[:, xName],
     							y=df.loc[:, i],
-    							mode='markers',
-    							marker={'size': 10, 'opacity': 0.65,
-    									'line': {'width': 0.5, 'color': 'white'}},
+    							mode=marker_mode,
+    							marker=marker,
+                                opacity=0.7,
+    							# marker={'size': 10, 'opacity': 0.65, 'line': {'width': 0.5, 'color': 'white'}},
     							name=i,
     		))
 
@@ -201,18 +218,17 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal
     ])
 
 @app.callback(Output('output-data-upload', 'children'),
-			 [Input('upload-data', 'contents'),
-			  Input('xaxis-column', 'value'),
-			  Input('min-limit-value', 'value'),
-			  Input('min-lim-value', 'value'),
-			  Input('yaxis-column', 'value'),
-			  Input('upper-limit-value', 'value'),
-			  Input('max-lim-value', 'value')],
+			 [Input('upload-data', 'contents'), Input('xaxis-column', 'value'),
+			  Input('min-limit-value', 'value'), Input('min-lim-value', 'value'),
+			  Input('yaxis-column', 'value'), Input('upper-limit-value', 'value'),
+			  Input('max-lim-value', 'value'), Input('scatter-mode', 'value')],
 			 [State('upload-data', 'filename'),
 			  State('upload-data', 'last_modified')])
-def update_output(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal, filename, states):
+def update_output(contents, xName, minLim, minLimVal, yNames, 
+                    maxLim, maxLimVal, marker_mode, filename, states):
 	if contents is not None:
-		children = parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim, maxLimVal, filename, states)
+		children = parse_contents(contents, xName, minLim, minLimVal, yNames, 
+                                    maxLim, maxLimVal, marker_mode, filename, states)
 		return children
 
 
