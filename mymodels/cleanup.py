@@ -9,7 +9,8 @@ import plotly.graph_objs as go
 def cleanup(df):
     if "OIL KM's" in df.columns:
         df["OIL KM's"] = pd.to_numeric(df["OIL KM's"], errors='coerce')
-        df["KV @ 100 D445"] = pd.to_numeric(df[""], errors='coerce')
+        if "KV @ 100 D445" in df.columns:
+            df["KV @ 100 D445"] = pd.to_numeric(df[""], errors='coerce')
         df = df[~df["OIL KM's"].isnull()]
         df.dropna(how='all', inplace=True)
         df.replace('<(.*)', r'\1', regex=True, inplace=True)
