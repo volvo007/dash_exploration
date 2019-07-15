@@ -272,4 +272,4 @@ def get_available_indicators1(contents, filename):
         return ''
 
 if __name__ == '__main__':
-    app.run_server(debug=True, host='192.168.1.18', port=8050)
+    app.run_server(debug=True,) 

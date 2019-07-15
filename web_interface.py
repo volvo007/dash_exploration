@@ -91,22 +91,22 @@ app.layout = html.Div([
                 html.Div([
                     dcc.Dropdown(
                         id='y1-axis', value='', placeholder='y1-axis of 1st chart',
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '100%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
                         id='c1-title', value='', placeholder='Title of 1st chart',
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
                         id='y1-title', value='', placeholder='y1-axis title',
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
                         id='scatter-mode1',
                         value='markers',
                         options=[{'label': i, 'value': j} for i, j in 
                             zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                 ]),
                 html.Div([
@@ -141,22 +141,22 @@ app.layout = html.Div([
                 html.Div([
                     dcc.Dropdown(
                         id='y3-axis', value='', placeholder='y3-axis of 3rd chart',
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
                         id='c3-title', value='', placeholder='Title of 3rd chart',
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
                         id='y3-title', value='', placeholder='y3-axis title',
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
                         id='scatter-mode3',
                         value='markers',
                         options=[{'label': i, 'value': j} for i, j in 
                             zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                 ]),
                 html.Div([
@@ -194,22 +194,22 @@ app.layout = html.Div([
                 html.Div([
                     dcc.Dropdown(
                         id='y2-axis', value='', placeholder='y2-axis of 2nd chart',
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
                         id='c2-title', value='', placeholder='Title of 2nd chart',
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
                         id='y2-title', value='', placeholder='y1-axis title',
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
                         id='scatter-mode2',
                         value='markers',
                         options=[{'label': i, 'value': j} for i, j in 
                             zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
-                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                 ]),
                 html.Div([
@@ -244,22 +244,22 @@ app.layout = html.Div([
             html.Div([
                 dcc.Dropdown(
                     id='y4-axis', value='', placeholder='y4-axis of 4th chart',
-                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
                 dcc.Dropdown(
                     id='c4-title', value='', placeholder='Title of 4th chart',
-                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
                 dcc.Dropdown(
                     id='y4-title', value='', placeholder='y4-axis title',
-                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
                 dcc.Dropdown(
                     id='scatter-mode4',
                     value='markers',
                     options=[{'label': i, 'value': j} for i, j in 
                         zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
-                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
             ]),
             html.Div([
