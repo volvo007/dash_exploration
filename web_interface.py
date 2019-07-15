@@ -76,90 +76,220 @@ app.layout = html.Div([
     ], style={'margin': '10px'}),
 
     html.H2('Step 3. Choose x-axis and y-axis for different charts'),
+    # x-axis option
     html.Div([
         dcc.Dropdown(
             id='global-x', value='', placeholder='Select a feature as public x-axis...'
         ),
     ], style={'width': '96%', 'margin': '10px'}),
-    html.Div([
-        html.Div([
-            dcc.Dropdown(
-                id='axis-y1', value='', placeholder='y1-axis of 1st chart',
-                style={'margin': '5px'}
-            ),
-            dcc.Dropdown(
-                id='axis-y2', value='', placeholder='y3-axis of 2nd chart',
-                style={'margin': '5px'}
-            ),
-        ], style={'margin': '5px', 'width': '48%', 'display': 'inline-block'}),
-        html.Div([
-            dcc.Dropdown(
-                id='axis-y3', value='', placeholder='y2-axis of 3rd chart',
-                style={'margin': '5px'}
-            ),
-            dcc.Dropdown(
-                id='axis-y4', value='', placeholder='y4-axis of 4th chart',
-                style={'margin': '5px'}
-            ),
-        ], style={'margin': '5px', 'width': '48%', 'display': 'inline-block'}),
-    ], style={'width': '96%'}),
 
-    # xaxis, need lower limitation or not, limitation value
     html.Div([
-        html.H2('Step 3. Choose the x-axis and y-axis'),
+        # chart 1,3
         html.Div([
-            dcc.Dropdown(
-                id='xaxis-column', value='', placeholder='Select a feature as xaxis...'
-            ),
+            # chart 1 options
             html.Div([
-                html.H5('Need Lower-limitation?'),
+                html.Div([
+                    dcc.Dropdown(
+                        id='y1-axis', value='', placeholder='y1-axis of 1st chart',
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '100%'}
+                    ),
+                    dcc.Dropdown(
+                        id='c1-title', value='', placeholder='Title of 1st chart',
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                    dcc.Dropdown(
+                        id='y1-title', value='', placeholder='y1-axis title',
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                    dcc.Dropdown(
+                        id='scatter-mode1',
+                        value='markers',
+                        options=[{'label': i, 'value': j} for i, j in 
+                            zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                ]),
+                html.Div([
+                    dcc.RadioItems(
+                        id='min-lim-1',
+                        options=[{'label': i, 'value': i} for i in ['Lower-Limit', 'No Need']],
+                        value='No Need', labelStyle={'display': 'inline-block'},
+                        style={'margin': '5px'}
+                    ),
+                    dcc.Input(
+                        id='min-lim-value1', placeholder='Enter a value...', 
+                        type='number', value='', style={'margin': '5px'}
+                    ),
+                ], style={'margin': '5px', 'display': 'inline-block'}),
+                html.Div([
+                    dcc.RadioItems(
+                        id='max-lim-1',
+                        options=[{'label': i, 'value': i} for i in ['Upper-Limit', 'No Need']],
+                        value='No Need', labelStyle={'display': 'inline-block'},
+                        style={'margin': '5px'}
+                    ),
+                    dcc.Input(
+                        id='max-lim-value1', placeholder='Enter a value...', 
+                        type='number', value='', style={'margin': '5px'}
+                    ),
+                ], style={'margin': '5px', 'display': 'inline-block'}),
+            ], style={'border': '2px dashed #999', 'borderRadius': '5px',
+                        'padding': '10px', 'margin': '5px 5px'}),
+
+            # chart 3 options
+            html.Div([
+                html.Div([
+                    dcc.Dropdown(
+                        id='y3-axis', value='', placeholder='y3-axis of 3rd chart',
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                    dcc.Dropdown(
+                        id='c3-title', value='', placeholder='Title of 3rd chart',
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                    dcc.Dropdown(
+                        id='y3-title', value='', placeholder='y3-axis title',
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                    dcc.Dropdown(
+                        id='scatter-mode3',
+                        value='markers',
+                        options=[{'label': i, 'value': j} for i, j in 
+                            zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                ]),
+                html.Div([
+                    dcc.RadioItems(
+                        id='min-lim-3',
+                        options=[{'label': i, 'value': i} for i in ['Lower-Limit', 'No Need']],
+                        value='No Need', labelStyle={'display': 'inline-block'},
+                        style={'margin': '5px'}
+                    ),
+                    dcc.Input(
+                        id='min-lim-value3', placeholder='Enter a value...', 
+                        type='number', value='', style={'margin': '5px'}
+                    ),
+                ], style={'margin': '5px', 'display': 'inline-block'}),
+                html.Div([
+                    dcc.RadioItems(
+                        id='max-lim-3',
+                        options=[{'label': i, 'value': i} for i in ['Upper-Limit', 'No Need']],
+                        value='No Need', labelStyle={'display': 'inline-block'},
+                        style={'margin': '5px'}
+                    ),
+                    dcc.Input(
+                        id='max-lim-value3', placeholder='Enter a value...', 
+                        type='number', value='', style={'margin': '5px'}
+                    ),
+                ], style={'margin': '5px', 'display': 'inline-block'}),
+            ], style={'border': '2px dashed #999', 'borderRadius': '5px',
+                        'padding': '10px', 'margin': '5px 5px'}),
+            ], style={'display': 'inline-block', 'width': '48%'}),
+
+        # chart 2.4
+        html.Div([
+            # chart 2 options
+            html.Div([
+                html.Div([
+                    dcc.Dropdown(
+                        id='y2-axis', value='', placeholder='y2-axis of 2nd chart',
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                    dcc.Dropdown(
+                        id='c2-title', value='', placeholder='Title of 2nd chart',
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                    dcc.Dropdown(
+                        id='y2-title', value='', placeholder='y1-axis title',
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                    dcc.Dropdown(
+                        id='scatter-mode2',
+                        value='markers',
+                        options=[{'label': i, 'value': j} for i, j in 
+                            zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
+                        style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                    ),
+                ]),
+                html.Div([
+                    dcc.RadioItems(
+                        id='min-lim-2',
+                        options=[{'label': i, 'value': i} for i in ['Lower-Limit', 'No Need']],
+                        value='No Need', labelStyle={'display': 'inline-block'},
+                        style={'margin': '5px'}
+                    ),
+                    dcc.Input(
+                        id='min-lim-value2', placeholder='Enter a value...', 
+                        type='number', value='', style={'margin': '5px'}
+                    ),
+                ], style={'margin': '5px', 'display': 'inline-block'}),
+                html.Div([
+                    dcc.RadioItems(
+                        id='max-lim-2',
+                        options=[{'label': i, 'value': i} for i in ['Upper-Limit', 'No Need']],
+                        value='No Need', labelStyle={'display': 'inline-block'},
+                        style={'margin': '5px'}
+                    ),
+                    dcc.Input(
+                        id='max-lim-value2', placeholder='Enter a value...', 
+                        type='number', value='', style={'margin': '5px'}
+                    ),
+                ], style={'margin': '5px', 'display': 'inline-block'}),
+            ], style={'border': '2px dashed #999', 'borderRadius': '5px',
+                        'padding': '10px', 'margin': '5px 5px'}),
+
+        # chart 4 options
+        html.Div([
+            html.Div([
+                dcc.Dropdown(
+                    id='y4-axis', value='', placeholder='y4-axis of 4th chart',
+                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                ),
+                dcc.Dropdown(
+                    id='c4-title', value='', placeholder='Title of 4th chart',
+                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                ),
+                dcc.Dropdown(
+                    id='y4-title', value='', placeholder='y4-axis title',
+                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                ),
+                dcc.Dropdown(
+                    id='scatter-mode4',
+                    value='markers',
+                    options=[{'label': i, 'value': j} for i, j in 
+                        zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
+                    style={'margin': '5px', 'display': 'inline-block', 'width': '22%'}
+                ),
+            ]),
+            html.Div([
                 dcc.RadioItems(
-                    id='min-limit-value',
+                    id='min-lim-4',
                     options=[{'label': i, 'value': i} for i in ['Lower-Limit', 'No Need']],
-                    value='No Need',
-                    labelStyle={'display': 'inline-block'}
-            ),
-                dcc.Input(
-                    id='min-lim-value', placeholder='Enter a value...', type='text', value=''
-            ),
-            ],
-                style={'border': '2px dashed #999', 'borderRadius': '5px', 
-                        'padding': '10px', 'margin': '5px 10px'}
-            )
-        ], style={'width': '48%', 'display': 'inline-block'}),
-
-        # yaxis, need upper limitation or not, limitation value
-        html.Div([
-            dcc.Dropdown(
-                id='yaxis-column', value='', placeholder='Select features as yaxis...'
-            ),
-            html.Div([
-                html.H5('Need Upper-limitation?'),
-                dcc.RadioItems(
-                    id='upper-limit-value',
-                    options=[{'label': i, 'value': i} for i in ['Upper-Limit', 'No Need']],
-                    value='No Need',
-                    labelStyle={'display': 'inline-block'}
+                    value='No Need', labelStyle={'display': 'inline-block'},
+                    style={'margin': '5px'}
                 ),
                 dcc.Input(
-                    id='max-lim-value', placeholder='Enter a value...', type='text', value=''
-                )],
-                style={
-                    'border': '2px dashed #999', 'borderRadius': '5px', 
-                    'padding': '10px', 'margin': '5px 10px'}),
-                ],
-        style={'width': '48%', 'display': 'inline-block'}),
-
-        html.Div([
-            html.H5('Choose the type of the chart: scatter or line?'),
-            dcc.Dropdown(
-                id='scatter-mode', value='markers',
-                options=[{'label': i, 'value': j} for i, j in 
-                            zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])]
-            )
-        ],
-            style={'width': '48%'}),
-    ], style={'margin': '20px'}),
+                    id='min-lim-value4', placeholder='Enter a value...', 
+                    type='number', value='', style={'margin': '5px'}
+                ),
+            ], style={'margin': '5px', 'display': 'inline-block'}),
+            html.Div([
+                dcc.RadioItems(
+                    id='max-lim-4',
+                    options=[{'label': i, 'value': i} for i in ['Upper-Limit', 'No Need']],
+                    value='No Need', labelStyle={'display': 'inline-block'},
+                    style={'margin': '5px'}
+                ),
+                dcc.Input(
+                    id='max-lim-value4', placeholder='Enter a value...', 
+                    type='number', value='', style={'margin': '5px'}
+                ),
+            ], style={'margin': '5px', 'display': 'inline-block'}),
+        ], style={'border': '2px dashed #999', 'borderRadius': '5px',
+                    'padding': '10px', 'margin': '5px 5px'}),
+        ], style={'display': 'inline-block', 'width': '48%'}),
+    ]),
 
     html.Div(id='output-data-upload'),
 ])
