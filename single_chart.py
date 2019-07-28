@@ -149,8 +149,8 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim,
         marker = {'size': 7, 'opacity': 0.65}
     for i in yNames:
     	traces.append(go.Scatter(
-    							x=df.loc[:, xName], y=df.loc[:, i], mode=marker_mode, marker=marker,
-                                opacity=0.7,
+    							x=df.loc[:, xName], y=df.loc[:, i], mode=marker_mode, 
+                                marker=marker, opacity=0.7,
     							# marker={'size': 10, 'opacity': 0.65, 'line': {'width': 0.5, 'color': 'white'}},
     							name=i,
     		))
@@ -160,11 +160,13 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim,
     # plotly 里面加线：https://plot.ly/python/shapes/
     if (minLim == 'No Need') & (maxLim == 'No Need'):
     	    layout = go.Layout(xaxis={'title': xName}, yaxis={'title': yAxisName}, 
-                        title=dict(text=chartTitle, font={'size': 20}), margin={'l': 50, 'r':20, 't':50, 'b':50},
+                        title=dict(text=chartTitle, font={'size': 20}), 
+                        margin={'l': 50, 'r':20, 't':50, 'b':90},
     					width=1480, height=800, hovermode='closest')
     if (minLim != 'No Need') & (maxLim == 'No Need'):
     	    layout = go.Layout(xaxis={'title': xName}, yaxis={'title': yAxisName}, 
-                        title=dict(text=chartTitle, font={'size': 20}), margin={'l': 50, 'r':20, 't':50, 'b':50},
+                        title=dict(text=chartTitle, font={'size': 20}), 
+                        margin={'l': 50, 'r':20, 't':50, 'b':90},
     					width=1480, height=800, hovermode='closest',
                         shapes=[
                             {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': minLimVal, 
@@ -173,7 +175,8 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim,
                         ])
     if (minLim == 'No Need') & (maxLim != 'No Need'):
     	    layout = go.Layout(xaxis={'title': xName}, yaxis={'title': yAxisName},
-                        title=dict(text=chartTitle, font={'size': 20}), margin={'l': 50, 'r':20, 't':50, 'b':50},
+                        title=dict(text=chartTitle, font={'size': 20}), 
+                        margin={'l': 50, 'r':20, 't':50, 'b':90},
     					width=1480, height=800, hovermode='closest',
                         shapes=[
                             {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': maxLimVal, 
@@ -182,7 +185,8 @@ def parse_contents(contents, xName, minLim, minLimVal, yNames, maxLim,
                         ])
     if (minLim != 'No Need') & (maxLim != 'No Need'):
     	    layout = go.Layout(xaxis={'title': xName}, yaxis={'title': yAxisName}, 
-                        title=dict(text=chartTitle, font={'size': 20}), margin={'l': 50, 'r':20, 't':50, 'b':50},
+                        title=dict(text=chartTitle, font={'size': 20}), 
+                        margin={'l': 50, 'r':20, 't':50, 'b':90},
     					width=1480, height=800, hovermode='closest',
                         shapes=[
                             {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': maxLimVal, 
