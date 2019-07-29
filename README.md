@@ -14,6 +14,10 @@ The file "exploration.py", which focusing on flash_cache usage, is still under d
 
 ### Update Log
 ----------
+V0.3 7/18/2019
+Add a fuction that allows you to custmize **chart title** and **y-axis title**
+Add a fuction that allows you to change the type of chart among 'scatter', 'line chart' or 'scatter + line chart'
+
 V0.2 7/12/2019
 Add a function that be able to choose the type of the chart: scatter/line only, or scatter+line
 
