@@ -12,6 +12,7 @@ from dash.dependencies import Input, Output, State
 import dash_auth
 import dash_table
 from flask_caching import Cache
+from dash.exceptions import PreventUpdate
 
 import filter_data
 
@@ -49,9 +50,9 @@ app.layout = html.Div([
     # level 1, level 2, level 3 filters
     html.Div([
         html.H2('Step 2. Select Level 1/2/3 filters'),
-        html.Div('''If you select any classes under Level 1 filter, say, A and B; 
+        html.Div('''If you select any classes under Level 1 filter, say, A and B;
                     then Level 2 filter will only leave those elements belonging to classes A and B.'''),
-        html.Div('The default value is All which means all classes will be chosen defaultly.', 
+        html.Div('The default value is All which means all classes will be chosen defaultly.',
                     style={'margin': '20px 0px 20px'}),
         html.Div([
             dcc.Dropdown(
@@ -108,7 +109,7 @@ app.layout = html.Div([
                     dcc.Dropdown(
                         id='scatter-mode1',
                         value='markers',
-                        options=[{'label': i, 'value': j} for i, j in 
+                        options=[{'label': i, 'value': j} for i, j in
                             zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
@@ -121,7 +122,7 @@ app.layout = html.Div([
                         style={'margin': '5px'}
                     ),
                     dcc.Input(
-                        id='min-lim-value1', placeholder='Enter a value...', 
+                        id='min-lim-value1', placeholder='Enter a value...',
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
@@ -133,7 +134,7 @@ app.layout = html.Div([
                         style={'margin': '5px'}
                     ),
                     dcc.Input(
-                        id='max-lim-value1', placeholder='Enter a value...', 
+                        id='max-lim-value1', placeholder='Enter a value...',
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
@@ -159,7 +160,7 @@ app.layout = html.Div([
                     dcc.Dropdown(
                         id='scatter-mode3',
                         value='markers',
-                        options=[{'label': i, 'value': j} for i, j in 
+                        options=[{'label': i, 'value': j} for i, j in
                             zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
@@ -172,7 +173,7 @@ app.layout = html.Div([
                         style={'margin': '5px'}
                     ),
                     dcc.Input(
-                        id='min-lim-value3', placeholder='Enter a value...', 
+                        id='min-lim-value3', placeholder='Enter a value...',
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
@@ -184,7 +185,7 @@ app.layout = html.Div([
                         style={'margin': '5px'}
                     ),
                     dcc.Input(
-                        id='max-lim-value3', placeholder='Enter a value...', 
+                        id='max-lim-value3', placeholder='Enter a value...',
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
@@ -213,7 +214,7 @@ app.layout = html.Div([
                     dcc.Dropdown(
                         id='scatter-mode2',
                         value='markers',
-                        options=[{'label': i, 'value': j} for i, j in 
+                        options=[{'label': i, 'value': j} for i, j in
                             zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
@@ -226,7 +227,7 @@ app.layout = html.Div([
                         style={'margin': '5px'}
                     ),
                     dcc.Input(
-                        id='min-lim-value2', placeholder='Enter a value...', 
+                        id='min-lim-value2', placeholder='Enter a value...',
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
@@ -238,7 +239,7 @@ app.layout = html.Div([
                         style={'margin': '5px'}
                     ),
                     dcc.Input(
-                        id='max-lim-value2', placeholder='Enter a value...', 
+                        id='max-lim-value2', placeholder='Enter a value...',
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
@@ -264,7 +265,7 @@ app.layout = html.Div([
                 dcc.Dropdown(
                     id='scatter-mode4',
                     value='markers',
-                    options=[{'label': i, 'value': j} for i, j in 
+                    options=[{'label': i, 'value': j} for i, j in
                         zip(['Marker', 'Line', 'Marker+Line'], ['markers', 'lines', 'lines+markers'])],
                     style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
@@ -277,7 +278,7 @@ app.layout = html.Div([
                     style={'margin': '5px'}
                 ),
                 dcc.Input(
-                    id='min-lim-value4', placeholder='Enter a value...', 
+                    id='min-lim-value4', placeholder='Enter a value...',
                     type='number', value='', style={'margin': '5px'}
                 ),
             ], style={'margin': '5px', 'display': 'inline-block'}),
@@ -289,7 +290,7 @@ app.layout = html.Div([
                     style={'margin': '5px'}
                 ),
                 dcc.Input(
-                    id='max-lim-value4', placeholder='Enter a value...', 
+                    id='max-lim-value4', placeholder='Enter a value...',
                     type='number', value='', style={'margin': '5px'}
                 ),
             ], style={'margin': '5px', 'display': 'inline-block'}),
@@ -323,26 +324,85 @@ def global_store(contents, filename, status):
             useful_df["OIL KM's"] = pd.to_numeric(df["OIL KM's"], 'coerce')
             useful_df = useful_df[~useful_df["OIL KM's"].isnull()]
             useful_df.dropna(how='all', inplace=True)
-            return (useful_df, content_type, filename, status)
+            print(type(useful_df))
+            return useful_df
         except:
             useful_df.dropna(how='all', inplace=True)
-            # return (useful_df, content_type, filename, status)
+            print(type(useful_df))
+            return useful_df
 
-@app.callback([Output('level1', 'options'), Output('level2', 'options'), Output('level3', 'options')],
+@app.callback([Output('level1', 'options'), Output('level2', 'options'), Output('level3', 'options')], [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
-def 
+def filter_choose(contents, filename, status):
+    if contents is None:
+        raise PreventUpdate
+    else:
+        df_raw = global_store(contents, filename, status)
+        col_names = list(df_raw.columns)
+        valid_ops1 = [{'label': i, 'value': i} for i in col_names]
+        valid_ops2 = [{'label': i, 'value': i} for i in col_names]
+        valid_ops3 = [{'label': i, 'value': i} for i in col_names]
+        return valid_ops1, valid_ops2, valid_ops3
+
+@app.callback(Output('level1-value', 'options'),
+              [Input('level1', 'value'), Input('upload-data', 'contents')],
+              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def filter_ops1(f, contents, filename, status):
+    if contents is None:
+        raise PreventUpdate
+    else:
+        df_raw = global_store(contents, filename, status)
+        if f is None:
+            raise PreventUpdate
+        else:
+            f_options = list(df_raw[f].unique())
+            print(f_options)
+            f_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f_options]
+            return f_ops
+
+@app.callback(Output('level2-value', 'options'),
+              [Input('level2', 'value'), Input('upload-data', 'contents')],
+              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def filter_ops2(f, contents, filename, status):
+    if contents is None:
+        raise PreventUpdate
+    else:
+        df_raw = global_store(contents, filename, status)
+        if f is None:
+            raise PreventUpdate
+        else:
+            f_options = list(df_raw[f].unique())
+            print(f_options)
+            f_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f_options]
+            return f_ops
+
+@app.callback(Output('level3-value', 'options'),
+              [Input('level3', 'value'), Input('upload-data', 'contents')],
+              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def filter_ops3(f, contents, filename, status):
+    if contents is None:
+        raise PreventUpdate
+    else:
+        df_raw = global_store(contents, filename, status)
+        if f is None:
+            raise PreventUpdate
+        else:
+            f_options = list(df_raw[f].unique())
+            print(f_options)
+            f_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f_options]
+            return f_ops
 
 @app.callback(Output('signal', 'children'), [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
 def compute_value(contents, filename, status):
     global_store(contents, filename, status)
-    print('cache successfully on: {}'.format(time.localtime()))
+    # print('cache successfully on: {}'.format(time.localtime()))
     return contents
 
 MARKERS = filter_data.MARKERS
 COLORS = filter_data.COLORS
 
-@app.callback()
+# @app.callback()
 
 if __name__ == '__main__':
     app.run_server(debug=True)
