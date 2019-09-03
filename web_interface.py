@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
 from functools import reduce
+import time
 
 import dash
 import dash_core_components as dcc
@@ -11,6 +12,8 @@ from dash.dependencies import Input, Output, State
 import dash_auth
 import dash_table
 from flask_caching import Cache
+
+import filter_data
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -76,7 +79,7 @@ app.layout = html.Div([
         ], style={'width': '32%', 'display': 'inline-block'}),
     ], style={'margin': '10px'}),
 
-    html.H2('Step 3. Choose x-axis and y-axis for different charts'),
+    html.H2('Step 3. Choose x-axis and y-axis for each chart'),
     # x-axis option
     html.Div([
         dcc.Dropdown(
@@ -91,11 +94,11 @@ app.layout = html.Div([
             html.Div([
                 html.Div([
                     dcc.Dropdown(
-                        id='y1-axis', value='', placeholder='y1-axis of 1st chart',
+                        id='y1-axis', value='', placeholder='y1-axis of Chart 1',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
-                        id='c1-title', value='', placeholder='Title of 1st chart',
+                        id='c1-title', value='', placeholder='Title of Chart 1',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
@@ -134,6 +137,7 @@ app.layout = html.Div([
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
+                html.Div([html.Div(id='output-data-upload1')]),
             ], style={'border': '2px dashed #999', 'borderRadius': '5px',
                         'padding': '10px', 'margin': '5px 5px'}),
 
@@ -141,11 +145,11 @@ app.layout = html.Div([
             html.Div([
                 html.Div([
                     dcc.Dropdown(
-                        id='y3-axis', value='', placeholder='y3-axis of 3rd chart',
+                        id='y3-axis', value='', placeholder='y3-axis of Chart 3',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
-                        id='c3-title', value='', placeholder='Title of 3rd chart',
+                        id='c3-title', value='', placeholder='Title of Chart 3',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
@@ -184,6 +188,7 @@ app.layout = html.Div([
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
+                html.Div([html.Div(id='output-data-upload2')]),
             ], style={'border': '2px dashed #999', 'borderRadius': '5px',
                         'padding': '10px', 'margin': '5px 5px'}),
             ], style={'display': 'inline-block', 'width': '48%'}),
@@ -194,11 +199,11 @@ app.layout = html.Div([
             html.Div([
                 html.Div([
                     dcc.Dropdown(
-                        id='y2-axis', value='', placeholder='y2-axis of 2nd chart',
+                        id='y2-axis', value='', placeholder='y2-axis of Chart 2',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
-                        id='c2-title', value='', placeholder='Title of 2nd chart',
+                        id='c2-title', value='', placeholder='Title of Chart 2',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
@@ -237,6 +242,7 @@ app.layout = html.Div([
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
+                html.Div([html.Div(id='output-data-upload3')]),
             ], style={'border': '2px dashed #999', 'borderRadius': '5px',
                         'padding': '10px', 'margin': '5px 5px'}),
 
@@ -244,11 +250,11 @@ app.layout = html.Div([
         html.Div([
             html.Div([
                 dcc.Dropdown(
-                    id='y4-axis', value='', placeholder='y4-axis of 4th chart',
+                    id='y4-axis', value='', placeholder='y4-axis of Chart 4',
                     style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
                 dcc.Dropdown(
-                    id='c4-title', value='', placeholder='Title of 4th chart',
+                    id='c4-title', value='', placeholder='Title of Chart 4',
                     style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
                 dcc.Dropdown(
@@ -287,15 +293,16 @@ app.layout = html.Div([
                     type='number', value='', style={'margin': '5px'}
                 ),
             ], style={'margin': '5px', 'display': 'inline-block'}),
+            html.Div([html.Div(id='output-data-upload4')]),
         ], style={'border': '2px dashed #999', 'borderRadius': '5px',
                     'padding': '10px', 'margin': '5px 5px'}),
         ], style={'display': 'inline-block', 'width': '48%'}),
     ]),
 
-    html.Div(id='output-data-upload'),
+    html.Div(id='signal', style={'display': 'none'}),
 ])
 
-@cache.memoize(timeout=20)
+@cache.memoize(timeout=60)
 def global_store(contents, filename, status):
     # simulate expensive query
     if contents is not None:
@@ -319,7 +326,23 @@ def global_store(contents, filename, status):
             return (useful_df, content_type, filename, status)
         except:
             useful_df.dropna(how='all', inplace=True)
-            return (useful_df, content_type, filename, status)
+            # return (useful_df, content_type, filename, status)
+
+@app.callback([Output('level1', 'options'), Output('level2', 'options'), Output('level3', 'options')],
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def 
+
+@app.callback(Output('signal', 'children'), [Input('upload-data', 'contents')],
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def compute_value(contents, filename, status):
+    global_store(contents, filename, status)
+    print('cache successfully on: {}'.format(time.localtime()))
+    return contents
+
+MARKERS = filter_data.MARKERS
+COLORS = filter_data.COLORS
+
+@app.callback()
 
 if __name__ == '__main__':
     app.run_server(debug=True)
