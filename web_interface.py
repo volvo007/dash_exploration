@@ -18,6 +18,9 @@ import filter_data
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
+MARKERS = filter_data.MARKERS
+COLORS = filter_data.COLORS
+
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 CACHE_CONFIG = {
     # try 'filesystem' if you don't want to setup redis
@@ -189,7 +192,7 @@ app.layout = html.Div([
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
-                html.Div([html.Div(id='output-data-upload2')]),
+                html.Div([html.Div(id='output-data-upload3')]),
             ], style={'border': '2px dashed #999', 'borderRadius': '5px',
                         'padding': '10px', 'margin': '5px 5px'}),
             ], style={'display': 'inline-block', 'width': '48%'}),
@@ -243,7 +246,7 @@ app.layout = html.Div([
                         type='number', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
-                html.Div([html.Div(id='output-data-upload3')]),
+                html.Div([html.Div(id='output-data-upload2')]),
             ], style={'border': '2px dashed #999', 'borderRadius': '5px',
                         'padding': '10px', 'margin': '5px 5px'}),
 
@@ -301,8 +304,10 @@ app.layout = html.Div([
     ]),
 
     html.Div(id='signal', style={'display': 'none'}),
+    html.Div(id='maker_symbol', style={'display': 'none'}),
 ])
 
+# dataFrame cached
 @cache.memoize(timeout=60)
 def global_store(contents, filename, status):
     # simulate expensive query
@@ -324,13 +329,14 @@ def global_store(contents, filename, status):
             useful_df["OIL KM's"] = pd.to_numeric(df["OIL KM's"], 'coerce')
             useful_df = useful_df[~useful_df["OIL KM's"].isnull()]
             useful_df.dropna(how='all', inplace=True)
-            print(type(useful_df))
+            # print(type(useful_df))
             return useful_df
         except:
             useful_df.dropna(how='all', inplace=True)
-            print(type(useful_df))
+            # print(type(useful_df))
             return useful_df
 
+# options for filters
 @app.callback([Output('level1', 'options'), Output('level2', 'options'), Output('level3', 'options')], [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
 def filter_choose(contents, filename, status):
@@ -344,54 +350,75 @@ def filter_choose(contents, filename, status):
         valid_ops3 = [{'label': i, 'value': i} for i in col_names]
         return valid_ops1, valid_ops2, valid_ops3
 
+# options in fileter1
 @app.callback(Output('level1-value', 'options'),
               [Input('level1', 'value'), Input('upload-data', 'contents')],
               [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
-def filter_ops1(f, contents, filename, status):
+def filter_ops1(f1, contents, filename, status):
     if contents is None:
         raise PreventUpdate
     else:
         df_raw = global_store(contents, filename, status)
-        if f is None:
+        if f1 == '' or None:
             raise PreventUpdate
         else:
-            f_options = list(df_raw[f].unique())
-            print(f_options)
-            f_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f_options]
-            return f_ops
+            f1_options = list(df_raw[f1].unique())
+            f1_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f1_options]
+            return f1_ops
 
+# options in fileter2
 @app.callback(Output('level2-value', 'options'),
-              [Input('level2', 'value'), Input('upload-data', 'contents')],
+              [Input('level1', 'value'), Input('level1-value', 'value'), 
+               Input('level2', 'value'), Input('upload-data', 'contents')],
               [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
-def filter_ops2(f, contents, filename, status):
+def filter_ops2(f1, f1v, f2, contents, filename, status):
     if contents is None:
         raise PreventUpdate
     else:
         df_raw = global_store(contents, filename, status)
-        if f is None:
+        if (f2 == '') or (f1 == '') or (f1v == '' or None):
             raise PreventUpdate
         else:
-            f_options = list(df_raw[f].unique())
-            print(f_options)
-            f_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f_options]
-            return f_ops
+            if 'all' in f1v:
+                f2_options = list(df_raw[f2].unique())
+            else:
+                df_lv2 = df_raw.loc[df_raw[f1].isin(f1v)]
+                f2_options = list(df_lv2[f2].unique())
+            f2_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f2_options]
+            return f2_ops
 
+# options in fileter3
 @app.callback(Output('level3-value', 'options'),
-              [Input('level3', 'value'), Input('upload-data', 'contents')],
+              [Input('level1', 'value'), Input('level1-value', 'value'), 
+               Input('level2', 'value'), Input('level2-value', 'value'), 
+               Input('level3', 'value'), Input('upload-data', 'contents')],
               [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
-def filter_ops3(f, contents, filename, status):
+def filter_ops3(f1, f1v, f2, f2v, f3, contents, filename, status):
     if contents is None:
         raise PreventUpdate
     else:
         df_raw = global_store(contents, filename, status)
-        if f is None:
+        if (f3 == '') or (f1 == '') or (f2 == '') or (f1v == '' or None) or (f2v == '' or None):
             raise PreventUpdate
         else:
-            f_options = list(df_raw[f].unique())
-            print(f_options)
-            f_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f_options]
-            return f_ops
+            if 'all' in f1v:
+                if 'all' in f2v:
+                    f3_options = list(df_raw[f3].unique())
+                else:
+                    df_lv3 = df_raw.loc[df_raw[f2].isin(f2v)]
+                    f3_options = list(df_lv3[f3].unique())
+            else:
+                if 'all' in f2v:
+                    df_lv3 = df_raw.loc[df_raw[f1].isin(f1v)]
+                    f3_options = list(df_lv3[f3].unique())
+                else:
+                    df_lv2 = df_raw.loc[df_raw[f1].isin(f1v)]
+                    df_lv3 = df_lv2.loc[df_lv2[f2].isin(f2v)]
+                    f3_options = list(df_lv3[f3].unique())
+            f3_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f3_options]
+            return f3_ops
 
+# calculated cache
 @app.callback(Output('signal', 'children'), [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
 def compute_value(contents, filename, status):
@@ -399,10 +426,91 @@ def compute_value(contents, filename, status):
     # print('cache successfully on: {}'.format(time.localtime()))
     return contents
 
-MARKERS = filter_data.MARKERS
-COLORS = filter_data.COLORS
+# choose x-axis
+@app.callback(Output('global-x', 'options'),
+             [Input('upload-data', 'contents')],
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def x_ops(contents, filename, status):
+    if contents is None:
+        raise PreventUpdate
+    else:
+        df_raw = global_store(contents, filename, status)
+        x_options = [{'label': i, 'value': i} for i in list(df_raw.columns)]
+        return x_options   
 
-# @app.callback()
+# choose y1-axis
+@app.callback(Output('y1-axis', 'options'),
+             [Input('upload-data', 'contents')],
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def y1_ops(contents, filename, status):
+    if contents is None:
+        raise PreventUpdate
+    else:
+        df_raw = global_store(contents, filename, status)
+        y1_options = [{'label': i, 'value': i} for i in list(df_raw.columns)]
+        return y1_options
+
+@app.callback(Output('output-data-upload1', 'children'),
+             [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'), 
+              Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'), 
+              Input('global-x', 'value'), Input('y1-axis', 'value'), Input('scatter-mode1', 'value'), 
+              Input('upload-data', 'contents')], 
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def get_df1(f1, f1v, f2, f2v, f3, f3v, xaxis, y1axis, marker_mode, contents, filename, status):
+    global MARKERS
+    if contents is None:
+        raise PreventUpdate
+    else:
+        if (xaxis == '' or None) or (y1axis == '' or None):
+            raise PreventUpdate
+        else:
+            df = global_store(contents, filename, status)
+            df_useful = filter_data.get_useful(df, f1, f1v, f2, f2v, f3, f3v, MARKERS)
+            traces = filter_data.generate_scatter(df_useful, xaxis, y1axis, marker_mode)
+            return html.Div([
+                dcc.Graph(
+                    figure = {
+                        'data': traces,
+                    }
+                )
+            ])
+
+# choose y1-axis
+@app.callback(Output('y2-axis', 'options'),
+             [Input('upload-data', 'contents')],
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def y2_ops(contents, filename, status):
+    if contents is None:
+        raise PreventUpdate
+    else:
+        df_raw = global_store(contents, filename, status)
+        y2_options = [{'label': i, 'value': i} for i in list(df_raw.columns)]
+        return y2_options
+
+@app.callback(Output('output-data-upload2', 'children'),
+             [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'), 
+              Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'), 
+              Input('global-x', 'value'), Input('y2-axis', 'value'), Input('scatter-mode2', 'value'), 
+              Input('upload-data', 'contents')], 
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def get_df2(f1, f1v, f2, f2v, f3, f3v, xaxis, y1axis, marker_mode, contents, filename, status):
+    global MARKERS
+    if contents is None:
+        raise PreventUpdate
+    else:
+        if (xaxis == '' or None) or (y1axis == '' or None):
+            raise PreventUpdate
+        else:
+            df = global_store(contents, filename, status)
+            df_useful = filter_data.get_useful(df, f1, f1v, f2, f2v, f3, f3v, MARKERS)
+            traces = filter_data.generate_scatter(df_useful, xaxis, y1axis, marker_mode)
+            return html.Div([
+                dcc.Graph(
+                    figure = {
+                        'data': traces,
+                    }
+                )
+            ])
 
 if __name__ == '__main__':
     app.run_server(debug=True)

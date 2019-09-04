@@ -21,7 +21,7 @@ def get_symbol_dict(df, level3, level3_value, marker_symbol):
         new_markers = marker_symbol * 3
     return {i:j for i,j in zip(level3_value, marker_symbol[:filter3_length])}
 
-def get_uesful(df, level1, level1_value, level2, level2_value, 
+def get_useful(df, level1, level1_value, level2, level2_value, 
                     level3, level3_value, marker_symbol):
     if level1 != '':
         if 'all' in level1_value:
@@ -102,7 +102,7 @@ def generate_scatter(dfs, xName, yName, marker_mode):
             symbol = df_temp['symbol'].iloc[0]
             # name = group[0][name_index]
             name = ' '.join([x for x in group[0]])
-            print(name)
+            # print(name)
             # 每个点的标记
             hovertext = [' '.join([i for i in group[0]])] * len(group[1])
             # print(hovertext)
