@@ -23,13 +23,13 @@ def get_symbol_dict(df, level3, level3_value, marker_symbol):
 
 def get_useful(df, level1, level1_value, level2, level2_value, 
                     level3, level3_value, marker_symbol):
-    if level1 != '':
+    if bool(level1):
         if 'all' in level1_value:
             df_lv1 = df
         else:
             df_lv1 = df[df[level1].isin(level1_value)]
             
-        if level2 != '':
+        if bool(level2):
             if 'all' in level2_value:
                 df_lv2 = df_lv1
             else:
@@ -37,7 +37,7 @@ def get_useful(df, level1, level1_value, level2, level2_value,
                 
             df_final = df_lv2.copy() 
             # print(level2_value)
-            if level3 != '':
+            if bool(level3):
                 if 'all' in level3_value:
                     marker_dict = get_symbol_dict(df, level3, level3_value, marker_symbol)
                     df_final['symbol'] = df_final[level3].apply(lambda x: marker_dict[x])
@@ -56,8 +56,9 @@ def get_useful(df, level1, level1_value, level2, level2_value,
                 return get_dfs(df_final, [level1, level2])
         else:
             df_lv1.sort_values([level1])
-            df_lv1['symbol'] = 0
-            return get_dfs(df_lv1, [level1])
+            df_final = df_lv1.copy()
+            df_final['symbol'] = 0
+            return get_dfs(df_final, [level1])
     else:
         df = df.copy()
         df['symbol'] = 0
@@ -109,3 +110,41 @@ def generate_scatter(dfs, xName, yName, marker_mode):
             traces.append(one_scatter(df_temp, xName, yName,  marker_mode, 
                                       symbol, name, hovertext))
         return traces
+
+def marker_adjust(marker_mode):
+    if marker_mode == 'markers':
+            marker = {'size': 10, 'opacity': 0.65, 'line': {'width': 0.5, 'color': 'white'}}
+    else:
+        marker = {'size': 7, 'opacity': 0.65}
+    return marker
+
+def layout_adjust(df, minLim, maxLim, minLimVal, maxLimVal, xName, yAxisName, chartTitle):
+    if (minLim == 'No Need') & (maxLim == 'No Need'):
+        shapes = None
+    if (minLim != 'No Need') & (maxLim == 'No Need'):
+        shapes=[
+            {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': minLimVal, 
+            'x1': max(df[xName]), 'y1': minLimVal,
+            'line': {'color': 'rgb(240, 48, 48)', 'width':2, 'dash': 'dashdot'}}
+        ]
+    if (minLim == 'No Need') & (maxLim != 'No Need'):
+        shapes=[
+            {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': maxLimVal, 
+            'x1': max(df[xName]), 'y1': maxLimVal,
+            'line': {'color': 'rgb(240, 48, 48)', 'width':2, 'dash': 'dashdot'}}
+        ]
+    if (minLim != 'No Need') & (maxLim != 'No Need'):
+        shapes=[
+            {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': maxLimVal, 
+            'x1': max(df[xName]), 'y1': maxLimVal,
+            'line': {'color': 'rgb(240, 48, 48)', 'width':2, 'dash': 'dashdot'}},
+            {'type': 'line', 'x0': min(df[xName])*0.9, 'y0': minLimVal, 
+            'x1': max(df[xName]), 'y1': minLimVal,
+            'line': {'color': 'rgb(240, 48, 48)', 'width':2, 'dash': 'dashdot'}}
+        ]
+
+    layout = go.Layout(xaxis={'title': xName}, yaxis={'title': yAxisName}, 
+                title=dict(text=chartTitle, font={'size': 20}), 
+                margin={'l': 50, 'r':20, 't':30, 'b':90}, orientation=45,
+                legend={'x': 0.9, 'y': 0.9}, hovermode='closest', shapes=shapes)
+    return layout

@@ -101,12 +101,12 @@ app.layout = html.Div([
                         id='y1-axis', value='', placeholder='y1-axis of Chart 1',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
-                    dcc.Dropdown(
-                        id='c1-title', value='', placeholder='Title of Chart 1',
+                    dcc.Input(
+                        id='c1-title', value='', placeholder='Title of Chart 1', type='text',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
-                    dcc.Dropdown(
-                        id='y1-title', value='', placeholder='y1-axis title',
+                    dcc.Input(
+                        id='y1-title', value='', placeholder='y1-axis title', type='text', 
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
@@ -126,7 +126,7 @@ app.layout = html.Div([
                     ),
                     dcc.Input(
                         id='min-lim-value1', placeholder='Enter a value...',
-                        type='number', value='', style={'margin': '5px'}
+                        type='text', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
                 html.Div([
@@ -138,7 +138,7 @@ app.layout = html.Div([
                     ),
                     dcc.Input(
                         id='max-lim-value1', placeholder='Enter a value...',
-                        type='number', value='', style={'margin': '5px'}
+                        type='text', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
                 html.Div([html.Div(id='output-data-upload1')]),
@@ -152,12 +152,12 @@ app.layout = html.Div([
                         id='y3-axis', value='', placeholder='y3-axis of Chart 3',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
-                    dcc.Dropdown(
-                        id='c3-title', value='', placeholder='Title of Chart 3',
+                    dcc.Input(
+                        id='c3-title', value='', placeholder='Title of Chart 3', type='text', 
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
-                    dcc.Dropdown(
-                        id='y3-title', value='', placeholder='y3-axis title',
+                    dcc.Input(
+                        id='y3-title', value='', placeholder='y3-axis title', type='text', 
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
@@ -177,7 +177,7 @@ app.layout = html.Div([
                     ),
                     dcc.Input(
                         id='min-lim-value3', placeholder='Enter a value...',
-                        type='number', value='', style={'margin': '5px'}
+                        type='text', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
                 html.Div([
@@ -189,7 +189,7 @@ app.layout = html.Div([
                     ),
                     dcc.Input(
                         id='max-lim-value3', placeholder='Enter a value...',
-                        type='number', value='', style={'margin': '5px'}
+                        type='text', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
                 html.Div([html.Div(id='output-data-upload3')]),
@@ -206,12 +206,12 @@ app.layout = html.Div([
                         id='y2-axis', value='', placeholder='y2-axis of Chart 2',
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
-                    dcc.Dropdown(
-                        id='c2-title', value='', placeholder='Title of Chart 2',
+                    dcc.Input(
+                        id='c2-title', value='', placeholder='Title of Chart 2', type='text', 
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
-                    dcc.Dropdown(
-                        id='y2-title', value='', placeholder='y1-axis title',
+                    dcc.Input(
+                        id='y2-title', value='', placeholder='y1-axis title', type='text', 
                         style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                     ),
                     dcc.Dropdown(
@@ -231,7 +231,7 @@ app.layout = html.Div([
                     ),
                     dcc.Input(
                         id='min-lim-value2', placeholder='Enter a value...',
-                        type='number', value='', style={'margin': '5px'}
+                        type='text', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
                 html.Div([
@@ -243,7 +243,7 @@ app.layout = html.Div([
                     ),
                     dcc.Input(
                         id='max-lim-value2', placeholder='Enter a value...',
-                        type='number', value='', style={'margin': '5px'}
+                        type='text', value='', style={'margin': '5px'}
                     ),
                 ], style={'margin': '5px', 'display': 'inline-block'}),
                 html.Div([html.Div(id='output-data-upload2')]),
@@ -257,12 +257,12 @@ app.layout = html.Div([
                     id='y4-axis', value='', placeholder='y4-axis of Chart 4',
                     style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
-                dcc.Dropdown(
-                    id='c4-title', value='', placeholder='Title of Chart 4',
+                dcc.Input(
+                    id='c4-title', value='', placeholder='Title of Chart 4', type='text', 
                     style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
-                dcc.Dropdown(
-                    id='y4-title', value='', placeholder='y4-axis title',
+                dcc.Input(
+                    id='y4-title', value='', placeholder='y4-axis title', type='text', 
                     style={'margin': '5px', 'display': 'inline-block', 'width': '22%', 'minWidth': '100px'}
                 ),
                 dcc.Dropdown(
@@ -282,7 +282,7 @@ app.layout = html.Div([
                 ),
                 dcc.Input(
                     id='min-lim-value4', placeholder='Enter a value...',
-                    type='number', value='', style={'margin': '5px'}
+                    type='text', value='', style={'margin': '5px'}
                 ),
             ], style={'margin': '5px', 'display': 'inline-block'}),
             html.Div([
@@ -294,7 +294,7 @@ app.layout = html.Div([
                 ),
                 dcc.Input(
                     id='max-lim-value4', placeholder='Enter a value...',
-                    type='number', value='', style={'margin': '5px'}
+                    type='text', value='', style={'margin': '5px'}
                 ),
             ], style={'margin': '5px', 'display': 'inline-block'}),
             html.Div([html.Div(id='output-data-upload4')]),
@@ -359,7 +359,7 @@ def filter_ops1(f1, contents, filename, status):
         raise PreventUpdate
     else:
         df_raw = global_store(contents, filename, status)
-        if f1 == '' or None:
+        if f1 == '':
             raise PreventUpdate
         else:
             f1_options = list(df_raw[f1].unique())
@@ -376,14 +376,20 @@ def filter_ops2(f1, f1v, f2, contents, filename, status):
         raise PreventUpdate
     else:
         df_raw = global_store(contents, filename, status)
-        if (f2 == '') or (f1 == '') or (f1v == '' or None):
+        if (f2 == '') or (f1 == '') or (f1v == [] or None):
             raise PreventUpdate
         else:
             if 'all' in f1v:
-                f2_options = list(df_raw[f2].unique())
+                if bool(f2):
+                    f2_options = list(df_raw[f2].unique())
+                else:
+                    raise PreventUpdate
             else:
-                df_lv2 = df_raw.loc[df_raw[f1].isin(f1v)]
-                f2_options = list(df_lv2[f2].unique())
+                if bool(f2):
+                    df_lv2 = df_raw.loc[df_raw[f1].isin(f1v)]
+                    f2_options = list(df_lv2[f2].unique())
+                else:
+                    raise PreventUpdate
             f2_ops = [{'label': 'All', 'value': 'all'}] + [{'label': i, 'value': i} for i in f2_options]
             return f2_ops
 
@@ -398,7 +404,7 @@ def filter_ops3(f1, f1v, f2, f2v, f3, contents, filename, status):
         raise PreventUpdate
     else:
         df_raw = global_store(contents, filename, status)
-        if (f3 == '') or (f1 == '') or (f2 == '') or (f1v == '' or None) or (f2v == '' or None):
+        if ~(bool(f1) or bool(f2) or bool(f1v) or bool(f2v)):
             raise PreventUpdate
         else:
             if 'all' in f1v:
@@ -454,28 +460,38 @@ def y1_ops(contents, filename, status):
              [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'), 
               Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'), 
               Input('global-x', 'value'), Input('y1-axis', 'value'), Input('scatter-mode1', 'value'), 
+              Input('min-lim-1', 'value'), Input('max-lim-1', 'value'),
+              Input('min-lim-value1', 'value'), Input('max-lim-value1', 'value'), 
+              Input('c1-title', 'value'), Input('y1-title', 'value'), 
               Input('upload-data', 'contents')], 
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
-def get_df1(f1, f1v, f2, f2v, f3, f3v, xaxis, y1axis, marker_mode, contents, filename, status):
+def get_df1(f1, f1v, f2, f2v, f3, f3v, xaxis, y1axis, marker_mode, 
+            minLim, maxLim, minLimVal, maxLimVal, charttitle, ytitle, contents, filename, status):
     global MARKERS
     if contents is None:
         raise PreventUpdate
     else:
-        if (xaxis == '' or None) or (y1axis == '' or None):
+        # print(f1, f1v, f2, f2v, f3, f3v)
+        if (xaxis == '' or xaxis == None) or (y1axis == '' or y1axis == None) or \
+            (f1v == [] and f1 != None) or (f2v == [] and f2 != None) or (f3v == [] and f3 != None) or \
+            (f1v != [] and f1 == None) or (f2v != [] and f2 == None) or (f3v != [] and f3 == None):
             raise PreventUpdate
         else:
             df = global_store(contents, filename, status)
             df_useful = filter_data.get_useful(df, f1, f1v, f2, f2v, f3, f3v, MARKERS)
             traces = filter_data.generate_scatter(df_useful, xaxis, y1axis, marker_mode)
+            layout = filter_data.layout_adjust(df, minLim, maxLim, minLimVal, 
+                                               maxLimVal, xaxis, ytitle, charttitle)
             return html.Div([
                 dcc.Graph(
                     figure = {
                         'data': traces,
+                        'layout': layout,
                     }
                 )
             ])
 
-# choose y1-axis
+# choose y2-axis
 @app.callback(Output('y2-axis', 'options'),
              [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
@@ -491,26 +507,126 @@ def y2_ops(contents, filename, status):
              [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'), 
               Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'), 
               Input('global-x', 'value'), Input('y2-axis', 'value'), Input('scatter-mode2', 'value'), 
+              Input('min-lim-2', 'value'), Input('max-lim-2', 'value'),
+              Input('min-lim-value2', 'value'), Input('max-lim-value2', 'value'), 
+              Input('c2-title', 'value'), Input('y2-title', 'value'), 
               Input('upload-data', 'contents')], 
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
-def get_df2(f1, f1v, f2, f2v, f3, f3v, xaxis, y1axis, marker_mode, contents, filename, status):
+def get_df2(f1, f1v, f2, f2v, f3, f3v, xaxis, y2axis, marker_mode, 
+            minLim, maxLim, minLimVal, maxLimVal, charttitle, ytitle, contents, filename, status):
     global MARKERS
     if contents is None:
         raise PreventUpdate
     else:
-        if (xaxis == '' or None) or (y1axis == '' or None):
+        if (xaxis == '' or xaxis == None) or (y2axis == '' or y2axis == None) or \
+            (f1v == [] and f1 != None) or (f2v == [] and f2 != None) or (f3v == [] and f3 != None) or \
+            (f1v != [] and f1 == None) or (f2v != [] and f2 == None) or (f3v != [] and f3 == None):
             raise PreventUpdate
         else:
             df = global_store(contents, filename, status)
             df_useful = filter_data.get_useful(df, f1, f1v, f2, f2v, f3, f3v, MARKERS)
-            traces = filter_data.generate_scatter(df_useful, xaxis, y1axis, marker_mode)
+            traces = filter_data.generate_scatter(df_useful, xaxis, y2axis, marker_mode)
+            layout = filter_data.layout_adjust(df, minLim, maxLim, minLimVal, 
+                                               maxLimVal, xaxis, ytitle, charttitle)
             return html.Div([
                 dcc.Graph(
                     figure = {
                         'data': traces,
+                        'layout': layout,
                     }
                 )
             ])
 
+# choose y3-axis
+@app.callback(Output('y3-axis', 'options'),
+             [Input('upload-data', 'contents')],
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def y3_ops(contents, filename, status):
+    if contents is None:
+        raise PreventUpdate
+    else:
+        df_raw = global_store(contents, filename, status)
+        y3_options = [{'label': i, 'value': i} for i in list(df_raw.columns)]
+        return y3_options
+
+@app.callback(Output('output-data-upload3', 'children'),
+             [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'), 
+              Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'), 
+              Input('global-x', 'value'), Input('y3-axis', 'value'), Input('scatter-mode3', 'value'), 
+              Input('min-lim-3', 'value'), Input('max-lim-3', 'value'),
+              Input('min-lim-value3', 'value'), Input('max-lim-value3', 'value'), 
+              Input('c3-title', 'value'), Input('y3-title', 'value'), 
+              Input('upload-data', 'contents')], 
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def get_df3(f1, f1v, f2, f2v, f3, f3v, xaxis, y3axis, marker_mode, 
+            minLim, maxLim, minLimVal, maxLimVal, charttitle, ytitle, contents, filename, status):
+    global MARKERS
+    if contents is None:
+        raise PreventUpdate
+    else:
+        if (xaxis == '' or xaxis == None) or (y3axis == '' or y3axis == None) or \
+            (f1v == [] and f1 != None) or (f2v == [] and f2 != None) or (f3v == [] and f3 != None) or \
+            (f1v != [] and f1 == None) or (f2v != [] and f2 == None) or (f3v != [] and f3 == None):
+            raise PreventUpdate
+        else:
+            df = global_store(contents, filename, status)
+            df_useful = filter_data.get_useful(df, f1, f1v, f2, f2v, f3, f3v, MARKERS)
+            traces = filter_data.generate_scatter(df_useful, xaxis, y3axis, marker_mode)
+            layout = filter_data.layout_adjust(df, minLim, maxLim, minLimVal, 
+                                               maxLimVal, xaxis, ytitle, charttitle)
+            return html.Div([
+                dcc.Graph(
+                    figure = {
+                        'data': traces,
+                        'layout': layout,
+                    }
+                )
+            ])
+
+# choose y4-axis
+@app.callback(Output('y4-axis', 'options'),
+             [Input('upload-data', 'contents')],
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def y4_ops(contents, filename, status):
+    if contents is None:
+        raise PreventUpdate
+    else:
+        df_raw = global_store(contents, filename, status)
+        y4_options = [{'label': i, 'value': i} for i in list(df_raw.columns)]
+        return y4_options
+
+@app.callback(Output('output-data-upload4', 'children'),
+             [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'), 
+              Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'), 
+              Input('global-x', 'value'), Input('y4-axis', 'value'), Input('scatter-mode4', 'value'), 
+              Input('min-lim-4', 'value'), Input('max-lim-4', 'value'),
+              Input('min-lim-value4', 'value'), Input('max-lim-value4', 'value'), 
+              Input('c4-title', 'value'), Input('y4-title', 'value'), 
+              Input('upload-data', 'contents')], 
+             [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
+def get_df4(f1, f1v, f2, f2v, f3, f3v, xaxis, y4axis, marker_mode, 
+            minLim, maxLim, minLimVal, maxLimVal, charttitle, ytitle, contents, filename, status):
+    global MARKERS
+    if contents is None:
+        raise PreventUpdate
+    else:
+        if (xaxis == '' or xaxis == None) or (y4axis == '' or y4axis == None) or \
+            (f1v == [] and f1 != None) or (f2v == [] and f2 != None) or (f3v == [] and f3 != None) or \
+            (f1v != [] and f1 == None) or (f2v != [] and f2 == None) or (f3v != [] and f3 == None):
+            raise PreventUpdate
+        else:
+            df = global_store(contents, filename, status)
+            df_useful = filter_data.get_useful(df, f1, f1v, f2, f2v, f3, f3v, MARKERS)
+            traces = filter_data.generate_scatter(df_useful, xaxis, y4axis, marker_mode)
+            layout = filter_data.layout_adjust(df, minLim, maxLim, minLimVal, 
+                                               maxLimVal, xaxis, ytitle, charttitle)
+            return html.Div([
+                dcc.Graph(
+                    figure = {
+                        'data': traces,
+                        'layout': layout,
+                    }
+                )
+            ])
 if __name__ == '__main__':
     app.run_server(debug=True)
