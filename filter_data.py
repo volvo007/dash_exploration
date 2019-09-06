@@ -122,7 +122,7 @@ def generate_scatter(dfs, xName, yName, marker_mode, colormap):
             name = ' '.join([x for x in group[0]])
             # 若分组长度大于等于2，说明有第二分类
             # 此时可以通过第二分类找到对应颜色
-            if len(group) >= 2:
+            if (len(group) >= 2) and (bool(colormap)):
                 color = colormap[group[0][1]]
             else:
                 color = None

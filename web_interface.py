@@ -472,17 +472,16 @@ def get_df1(f1, f1v, f2, f2v, f3, f3v, xaxis, y1axis, marker_mode,
     if contents is None:
         raise PreventUpdate
     else:
-        a = bool(xaxis) and bool(y1axis) and (not((bool(f3) & (f3v == 'all')))) and \
-            (bool(f1v) ^ bool(f1)) and (bool(f2v) ^ bool(f2)) and (bool(f3v) ^ bool(f3))
-        print(bool(xaxis), bool(y1axis), ((bool(f3) & (f3v == 'all'))), (bool(f1v) ^ bool(f1)), (bool(f2v) ^ bool(f2)), (bool(f3v) ^ bool(f3)))
-        if not a:
-            raise PreventUpdate
-        else:
+        a = bool(xaxis) and bool(y1axis) and (not(bool(f1v) ^ bool(f1))) and (not(bool(f2v) ^ bool(f2)))
+        b = not(bool(f3v) ^ bool(f3))
+        c = ((not(bool(f3))) & (f3v == 'all'))
+        if ((a & b) or (a & c)):
             df = global_store(contents, filename, status)
             if bool(f2):
                 color_dict = filter_data.get_color_dict(df, f2, COLORS)
             else:
                 color_dict = None
+            # print(color_dict)
             df_useful = filter_data.get_useful(df, f1, f1v, f2, f2v, f3, f3v, MARKERS)
             traces = filter_data.generate_scatter(df_useful, xaxis, y1axis, marker_mode, color_dict)
             layout = filter_data.layout_adjust(df, minLim, maxLim, minLimVal,
@@ -495,6 +494,8 @@ def get_df1(f1, f1v, f2, f2v, f3, f3v, xaxis, y1axis, marker_mode,
                     }
                 )
             ])
+        else:
+            raise PreventUpdate
 
 # choose y2-axis
 @app.callback(Output('y2-axis', 'options'),
@@ -520,13 +521,14 @@ def y2_ops(contents, filename, status):
 def get_df2(f1, f1v, f2, f2v, f3, f3v, xaxis, y2axis, marker_mode,
             minLim, maxLim, minLimVal, maxLimVal, charttitle, ytitle, contents, filename, status):
     global MARKERS
+    global COLORS
     if contents is None:
         raise PreventUpdate
     else:
-        if (xaxis == '' or xaxis == None) or (y2axis == '' or y2axis == None) or \
-            (bool(f1v) ^ bool(f1)) or (bool(f2v) ^ bool(f2)) or (bool(f3v) ^ bool(f3)):
-            raise PreventUpdate
-        else:
+        a = bool(xaxis) and bool(y2axis) and (not(bool(f1v) ^ bool(f1))) and (not(bool(f2v) ^ bool(f2)))
+        b = not(bool(f3v) ^ bool(f3))
+        c = ((not(bool(f3))) & (f3v == 'all'))
+        if ((a & b) or (a & c)):
             df = global_store(contents, filename, status)
             if bool(f2):
                 color_dict = filter_data.get_color_dict(df, f2, COLORS)
@@ -544,6 +546,8 @@ def get_df2(f1, f1v, f2, f2v, f3, f3v, xaxis, y2axis, marker_mode,
                     }
                 )
             ])
+        else:
+            raise PreventUpdate
 
 # choose y3-axis
 @app.callback(Output('y3-axis', 'options'),
@@ -569,13 +573,14 @@ def y3_ops(contents, filename, status):
 def get_df3(f1, f1v, f2, f2v, f3, f3v, xaxis, y3axis, marker_mode,
             minLim, maxLim, minLimVal, maxLimVal, charttitle, ytitle, contents, filename, status):
     global MARKERS
+    global COLORS
     if contents is None:
         raise PreventUpdate
     else:
-        if (xaxis == '' or xaxis == None) or (y3axis == '' or y3axis == None) or \
-            (bool(f1v) ^ bool(f1)) or (bool(f2v) ^ bool(f2)) or (bool(f3v) ^ bool(f3)):
-            raise PreventUpdate
-        else:
+        a = bool(xaxis) and bool(y3axis) and (not(bool(f1v) ^ bool(f1))) and (not(bool(f2v) ^ bool(f2)))
+        b = not(bool(f3v) ^ bool(f3))
+        c = ((not(bool(f3))) & (f3v == 'all'))
+        if ((a & b) or (a & c)):
             df = global_store(contents, filename, status)
             if bool(f2):
                 color_dict = filter_data.get_color_dict(df, f2, COLORS)
@@ -593,6 +598,8 @@ def get_df3(f1, f1v, f2, f2v, f3, f3v, xaxis, y3axis, marker_mode,
                     }
                 )
             ])
+        else:
+            raise PreventUpdate
 
 # choose y4-axis
 @app.callback(Output('y4-axis', 'options'),
@@ -618,13 +625,14 @@ def y4_ops(contents, filename, status):
 def get_df4(f1, f1v, f2, f2v, f3, f3v, xaxis, y4axis, marker_mode,
             minLim, maxLim, minLimVal, maxLimVal, charttitle, ytitle, contents, filename, status):
     global MARKERS
+    global COLORS
     if contents is None:
         raise PreventUpdate
     else:
-        if (xaxis == '' or xaxis == None) or (y4axis == '' or y4axis == None) or \
-            (bool(f1v) ^ bool(f1)) or (bool(f2v) ^ bool(f2)) or (bool(f3v) ^ bool(f3)):
-            raise PreventUpdate
-        else:
+        a = bool(xaxis) and bool(y4axis) and (not(bool(f1v) ^ bool(f1))) and (not(bool(f2v) ^ bool(f2)))
+        b = not(bool(f3v) ^ bool(f3))
+        c = ((not(bool(f3))) & (f3v == 'all'))
+        if ((a & b) or (a & c)):
             df = global_store(contents, filename, status)
             if bool(f2):
                 color_dict = filter_data.get_color_dict(df, f2, COLORS)
@@ -642,6 +650,8 @@ def get_df4(f1, f1v, f2, f2v, f3, f3v, xaxis, y4axis, marker_mode,
                     }
                 )
             ])
+        else:
+            raise PreventUpdate
 
 if __name__ == '__main__':
     app.run_server(debug=True)
