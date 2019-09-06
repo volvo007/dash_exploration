@@ -83,18 +83,18 @@ def one_scatter(df, xName, yName, marker_mode, symbol, name, hovertext, color):
     y = df.loc[:, yName]
     if color:
         if marker_mode == 'markers':
-            marker = {'size': 10, 'opacity': 0.65, 'symbol': symbol, 'color': color,
+            marker = {'size': 10, 'opacity': 0.85, 'symbol': symbol, 'color': color,
                     'line': {'width': 0.5, 'color': 'white'}}
         else:
-            marker = {'size': 7, 'opacity': 0.65, 'symbol': symbol, 'color': color}
+            marker = {'size': 7, 'opacity': 0.85, 'symbol': symbol, 'color': color}
         return go.Scattergl(x=x, y=y, mode=marker_mode, marker=marker, hoverinfo='x+y+text',
                         opacity=0.7, name=name, hovertext=hovertext)
     else:
         if marker_mode == 'markers':
-            marker = {'size': 10, 'opacity': 0.65, 'symbol': symbol,
+            marker = {'size': 10, 'opacity': 0.85, 'symbol': symbol,
                     'line': {'width': 0.5, 'color': 'white'}}
         else:
-            marker = {'size': 7, 'opacity': 0.65, 'symbol': symbol}
+            marker = {'size': 7, 'opacity': 0.85, 'symbol': symbol}
         return go.Scattergl(x=x, y=y, mode=marker_mode, marker=marker, hoverinfo='x+y+text',
                         opacity=0.7, name=name, hovertext=hovertext)
 
@@ -168,5 +168,5 @@ def layout_adjust(df, minLim, maxLim, minLimVal, maxLimVal, xName, yAxisName, ch
     layout = go.Layout(xaxis={'title': xName}, yaxis={'title': yAxisName},
                 title=dict(text=chartTitle, font={'size': 20}),
                 margin={'l': 50, 'r':20, 't':30, 'b':90}, orientation=45,
-                legend={'x': 0.9, 'y': 0.9}, hovermode='closest', shapes=shapes)
+                legend={'x': 0.95, 'y': 0.95, 'bgcolor': 'rgba(250, 243, 205, 0.3)'}, hovermode='closest', shapes=shapes)
     return layout
