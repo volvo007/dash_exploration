@@ -15,8 +15,8 @@ def get_symbol_dict(df, level3, level3_value, marker_symbol):
     if 'all' in level3_value:
         level3_value = list(df[level3].unique())
     filter3_length = len(level3_value)
-    if filter3_length > len(marker_symbol):
-        new_markers = marker_symbol * 3
+    while filter3_length > len(marker_symbol):
+        marker_symbol = marker_symbol * 3
     return {i:j for i,j in zip(level3_value, marker_symbol[:filter3_length])}
 
 def get_color_dict(df, level2, color_cand):
@@ -47,7 +47,9 @@ def get_useful(df, level1, level1_value, level2, level2_value,
             # print(level2_value)
             if bool(level3):
                 if 'all' in level3_value:
+                    
                     marker_dict = get_symbol_dict(df, level3, level3_value, marker_symbol)
+                    # print(marker_dict)
                     df_final['symbol'] = df_final[level3].apply(lambda x: marker_dict[x])
                     df_final.sort_values([level1, level2, level3])
                     # print(level3_value)
@@ -107,19 +109,19 @@ def generate_scatter(dfs, xName, yName, marker_mode, colormap):
     # 第一过滤有内容，返回df 组成的 list
     else:
         # 通过查询第一分组的过滤器长度，决定 lengacy 与 hover 名称
-        if len(dfs[0][0]) == 1:
-            name_index = 0
-        if len(dfs[0][0]) == 2:
-            name_index = 1
-        if len(dfs[0][0]) == 3:
-            name_index = 2
+        # if len(dfs[0][0]) == 1:
+        #     name_index = 0
+        # if len(dfs[0][0]) == 2:
+        #     name_index = 1
+        # if len(dfs[0][0]) == 3:
+        #     name_index = 2
 
         for group in dfs:
             df_temp = group[1]
             marker_mode = marker_mode
             symbol = df_temp['symbol'].iloc[0]
             # name = group[0][name_index]
-            name = ' '.join([x for x in group[0]])
+            name = ' '.join([str(x) for x in group[0]])
             # 若分组长度大于等于2，说明有第二分类
             # 此时可以通过第二分类找到对应颜色
             if (len(group) >= 2) and (bool(colormap)):
@@ -127,7 +129,7 @@ def generate_scatter(dfs, xName, yName, marker_mode, colormap):
             else:
                 color = None
             # 每个点的标记
-            hovertext = [' '.join([i for i in group[0]])] * len(group[1])
+            hovertext = [' '.join([str(i) for i in group[0]])] * len(group[1])
             # print(hovertext)
             traces.append(one_scatter(df_temp, xName, yName,  marker_mode,
                                       symbol, name, hovertext, color))

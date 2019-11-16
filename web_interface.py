@@ -31,6 +31,7 @@ CACHE_CONFIG = {
 }
 cache = Cache()
 cache.init_app(app.server, config=CACHE_CONFIG)
+server = app.server
 # app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div([
