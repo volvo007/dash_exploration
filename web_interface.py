@@ -15,6 +15,9 @@ from flask_caching import Cache
 from dash.exceptions import PreventUpdate
 
 import filter_data
+VALID_USERNAME_PASSWORD_PAIRS = {
+    'Jason': 'shell'
+}
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
@@ -22,6 +25,10 @@ MARKERS = filter_data.MARKERS
 COLORS = filter_data.COLORS
 
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
 CACHE_CONFIG = {
     # try 'filesystem' if you don't want to setup redis
     # 'CACHE_TYPE': 'redis',
