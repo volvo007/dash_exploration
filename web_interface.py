@@ -662,4 +662,4 @@ def get_df4(f1, f1v, f2, f2v, f3, f3v, xaxis, y4axis, marker_mode,
             raise PreventUpdate
 
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False, port=8888)
