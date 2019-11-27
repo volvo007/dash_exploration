@@ -1,5 +1,5 @@
 import pandas as pd
-import plotly.offline as py
+# import plotly.offline as py
 import plotly.graph_objs as go
 from functools import reduce
 import base64

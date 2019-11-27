@@ -15,12 +15,12 @@ import dash_table
 from flask_caching import Cache
 from dash.exceptions import PreventUpdate
 
-import filter_data
+from apps import filter_data
 VALID_USERNAME_PASSWORD_PAIRS = {
     'Jason': 'shell'
 }
 
-external_stylesheets = ['https://unpkg.com/spectre.css/dist/spectre.min.css']
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
 MARKERS = filter_data.MARKERS
 COLORS = filter_data.COLORS

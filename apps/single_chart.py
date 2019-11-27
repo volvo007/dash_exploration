@@ -9,22 +9,26 @@ import dash_core_components as dcc
 import dash_html_components as html
 import dash_table
 from flask_caching import Cache
+import flask
 
 import pandas as pd
 import plotly.graph_objs as go
 
+external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 # Keep this out of source code repository - save in a file or a database
 VALID_USERNAME_PASSWORD_PAIRS = {
     'Jason': 'shell'
 }
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = flask.Flask(__name__)
+app = dash.Dash(__name__, server=server,
+                routes_pathname_prefix='/singlefeature/',
+                external_stylesheets=external_stylesheets)
 auth = dash_auth.BasicAuth(
     app,
     VALID_USERNAME_PASSWORD_PAIRS
 )
+
+
 CACHE_CONFIG = {
     # try 'filesystem' if you don't want to setup redis
     # 'CACHE_TYPE': 'redis',
@@ -276,5 +280,5 @@ def get_available_indicators1(contents, filename):
         return ''
 
 if __name__ == '__main__':
-    app.run_server(debug=True, port=8051)
+    app.run_server(debug=False, port=8887)
     # app.run_server(host='192.168.1.18', port=8051)
