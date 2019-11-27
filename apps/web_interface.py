@@ -4,6 +4,7 @@ import pandas as pd
 import plotly.graph_objs as go
 from functools import reduce
 import time
+import flask
 
 import dash
 import dash_core_components as dcc
@@ -19,12 +20,15 @@ VALID_USERNAME_PASSWORD_PAIRS = {
     'Jason': 'shell'
 }
 
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
+external_stylesheets = ['https://unpkg.com/spectre.css/dist/spectre.min.css']
 
 MARKERS = filter_data.MARKERS
 COLORS = filter_data.COLORS
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+server = flask.Flask(__name__)
+app = dash.Dash(__name__, server=server,
+                routes_pathname_prefix='/multifeatures/',
+                external_stylesheets=external_stylesheets)
 auth = dash_auth.BasicAuth(
     app,
     VALID_USERNAME_PASSWORD_PAIRS
@@ -38,7 +42,7 @@ CACHE_CONFIG = {
 }
 cache = Cache()
 cache.init_app(app.server, config=CACHE_CONFIG)
-server = app.server
+# server = app.server
 # app.config.suppress_callback_exceptions = True
 
 app.layout = html.Div([
@@ -345,6 +349,7 @@ def global_store(contents, filename, status):
             return useful_df
 
 # options for filters
+@server.route('/multifeatures/')
 @app.callback([Output('level1', 'options'), Output('level2', 'options'), Output('level3', 'options')], [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
 def filter_choose(contents, filename, status):
@@ -359,6 +364,7 @@ def filter_choose(contents, filename, status):
         return valid_ops1, valid_ops2, valid_ops3
 
 # options in fileter1
+@server.route('/multifeatures/')
 @app.callback(Output('level1-value', 'options'),
               [Input('level1', 'value'), Input('upload-data', 'contents')],
               [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
@@ -375,6 +381,7 @@ def filter_ops1(f1, contents, filename, status):
             return f1_ops
 
 # options in fileter2
+@server.route('/multifeatures/')
 @app.callback(Output('level2-value', 'options'),
               [Input('level1', 'value'), Input('level1-value', 'value'),
                Input('level2', 'value'), Input('upload-data', 'contents')],
@@ -402,6 +409,7 @@ def filter_ops2(f1, f1v, f2, contents, filename, status):
             return f2_ops
 
 # options in fileter3
+@server.route('/multifeatures/')
 @app.callback(Output('level3-value', 'options'),
               [Input('level1', 'value'), Input('level1-value', 'value'),
                Input('level2', 'value'), Input('level2-value', 'value'),
@@ -433,6 +441,7 @@ def filter_ops3(f1, f1v, f2, f2v, f3, contents, filename, status):
             return f3_ops
 
 # calculated cache
+@server.route('/multifeatures/')
 @app.callback(Output('signal', 'children'), [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
 def compute_value(contents, filename, status):
@@ -441,6 +450,7 @@ def compute_value(contents, filename, status):
     return contents
 
 # choose x-axis
+@server.route('/multifeatures/')
 @app.callback(Output('global-x', 'options'),
              [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
@@ -453,6 +463,7 @@ def x_ops(contents, filename, status):
         return x_options
 
 # choose y1-axis
+@server.route('/multifeatures/')
 @app.callback(Output('y1-axis', 'options'),
              [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
@@ -464,6 +475,7 @@ def y1_ops(contents, filename, status):
         y1_options = [{'label': i, 'value': i} for i in list(df_raw.columns)]
         return y1_options
 
+@server.route('/multifeatures/')
 @app.callback(Output('output-data-upload1', 'children'),
              [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'),
               Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'),
@@ -506,6 +518,7 @@ def get_df1(f1, f1v, f2, f2v, f3, f3v, xaxis, y1axis, marker_mode,
             raise PreventUpdate
 
 # choose y2-axis
+@server.route('/multifeatures/')
 @app.callback(Output('y2-axis', 'options'),
              [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
@@ -517,6 +530,7 @@ def y2_ops(contents, filename, status):
         y2_options = [{'label': i, 'value': i} for i in list(df_raw.columns)]
         return y2_options
 
+@server.route('/multifeatures/')
 @app.callback(Output('output-data-upload2', 'children'),
              [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'),
               Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'),
@@ -558,6 +572,7 @@ def get_df2(f1, f1v, f2, f2v, f3, f3v, xaxis, y2axis, marker_mode,
             raise PreventUpdate
 
 # choose y3-axis
+@server.route('/multifeatures/')
 @app.callback(Output('y3-axis', 'options'),
              [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
@@ -569,6 +584,7 @@ def y3_ops(contents, filename, status):
         y3_options = [{'label': i, 'value': i} for i in list(df_raw.columns)]
         return y3_options
 
+@server.route('/multifeatures/')
 @app.callback(Output('output-data-upload3', 'children'),
              [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'),
               Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'),
@@ -610,6 +626,7 @@ def get_df3(f1, f1v, f2, f2v, f3, f3v, xaxis, y3axis, marker_mode,
             raise PreventUpdate
 
 # choose y4-axis
+@server.route('/multifeatures/')
 @app.callback(Output('y4-axis', 'options'),
              [Input('upload-data', 'contents')],
              [State('upload-data', 'filename'), State('upload-data', 'last_modified')])
@@ -621,6 +638,7 @@ def y4_ops(contents, filename, status):
         y4_options = [{'label': i, 'value': i} for i in list(df_raw.columns)]
         return y4_options
 
+@server.route('/multifeatures/')
 @app.callback(Output('output-data-upload4', 'children'),
              [Input('level1', 'value'), Input('level1-value', 'value'), Input('level2', 'value'),
               Input('level2-value', 'value'), Input('level3', 'value'), Input('level3-value', 'value'),
