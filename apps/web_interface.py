@@ -15,7 +15,7 @@ import dash_table
 from flask_caching import Cache
 from dash.exceptions import PreventUpdate
 
-from apps import filter_data
+import filter_data
 VALID_USERNAME_PASSWORD_PAIRS = {
     'Jason': 'shell'
 }
@@ -28,7 +28,7 @@ COLORS = filter_data.COLORS
 server = flask.Flask(__name__)
 app = dash.Dash(__name__, server=server,
                 # url_base_pathname='/multifeatures/',
-                requests_pathname_prefix='/multifeatures/',
+                # requests_pathname_prefix='/multifeatures/',
                 external_stylesheets=external_stylesheets)
 auth = dash_auth.BasicAuth(
     app,
