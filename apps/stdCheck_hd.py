@@ -188,9 +188,9 @@ def deal_json(nameList):
             valid_list = []
             for i in content[name].keys():
                 # print(content[name][i])
+                # print(any(content[name][i]), i)
                 if any(content[name][i]):
                     valid_list.append(i)
-            # print(valid_list)
             testSet.update(valid_list)
         for id, name in enumerate(nameList):
             if id == 0:
