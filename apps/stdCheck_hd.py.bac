@@ -1,0 +1,151 @@
+import json
+import pandas as pd
+import plotly.graph_objs as go
+import flask
+
+import dash
+import dash_core_components as dcc
+import dash_html_components as html
+import dash_auth
+import dash_table
+from dash.dependencies import Input, Output
+from dash.exceptions import PreventUpdate
+
+VALID_USERNAME_PASSWORD_PAIRS = {
+    'Jason': 'shell'
+}
+
+external_stylesheets = ['https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css']
+server = flask.Flask(__name__)
+app = dash.Dash(__name__, server=server,
+                url_base_pathname='/stdhd/',
+                # requests_pathname_prefix='/stdcheck/',
+                external_stylesheets=external_stylesheets)
+auth = dash_auth.BasicAuth(
+    app,
+    VALID_USERNAME_PASSWORD_PAIRS
+)
+
+with open('../static/stds/standards_hd.json', encoding='utf-8') as f:
+    content = json.load(f)
+
+columnList = list(content[0].keys())
+testName = [list(i.keys())[0] for i in content[0]['Bench Data']]
+stdDict = {
+    'API': ['API CI-4', 'API SL'],
+    'ACEA': ['ACEA E7'],
+    'JASO': ['JASO DH-1'],
+    'CUMMINS CES': ['CES 20078', 'CES 20076'],
+    'MB': ['MB 228.3'],
+    'VOLVO/MACK/RENAULT': ['Volvo VDS-3'],
+    'MAN': ['M3275-1 (FILE only)'],
+    'MTU': ['MTU Cat 2.1', 'MTU Cat 2'],
+    'DEUTZ': ['DQC III-18'],
+    'DFS': ['93K215']
+}
+style_cell_condi = [
+                    {'if': {'column_id': c},
+                    'maxWidth': '100px',
+                    # 'whiteSpace': 'normal',
+                    'height': 'auto',
+                    'overflow': 'hidden',
+                    'dataOverfolow': 'ellipsis'} for c in columnList[:3]
+] + [
+        {'if': {'column_id': 'Bench Data',
+        'filter_query': '{{{}}} eq "{}"'.format('Bench Data', n)},
+        'fontWeight': 'bold',
+        'textAlign': 'center',
+        'height': 'auto',
+        'margin': '5px',
+        'fontSize': 16} for n in testName
+] + [
+        {'if': {'column_id': c,'filter_query': '{{{}}} ne ""'.format(c)},
+        'backgroundColor': '#FFD500', 'fontWeight': 'bold'
+        } for c in columnList[3:]
+]
+
+app.layout = html.Div([
+    html.H2('Lite page for HDDEO bench checking'),
+    html.Div([
+        html.Div([
+            html.H4('Choose standard group firstly,\n and then choose specific standards.'),
+            html.Hr(),
+            html.P('Select group here:'),
+            dcc.Dropdown(
+                id='stdFather',
+                options=[{'label': k, 'value': k} for k in stdDict.keys()],
+                multi=True,
+                placeholder='Select basic ones...'
+            ),
+            html.P('Select standard(s) here:'),
+            dcc.Dropdown(
+                id='stdSon',
+                multi=True,
+                placeholder='Select subs ones...'
+            )
+        ], className='col-md-3'),
+        html.Div([
+            html.H4('If no standard is selected, it shows only bench tests name defaultly.'),
+            dash_table.DataTable(
+                id = 'std_table',
+                # columns = [{'id':h, 'name':h} for h in df.columns],
+                # data = df.to_dict('records'),
+                # fixed_rows={'headers': True, 'data':0},
+                # cell means whole table, header just work for header, data for data rows
+                style_cell={'minWidth': '5px', 'maxWidth': '120px', 'overflow': 'hidden',
+                            'textOverflow': 'ellipsis', 'padding': '2px',
+                            'minHeight': '10px', 'height': 'auto', 'textAlign': 'center'},
+                style_data_conditional=style_cell_condi,
+                style_header={'fontWeight': 'bold',
+                            'textAlign': 'center',
+                            'fontSize': 20},
+                style_table={'height': '900px',
+                            # 'width': '95%',
+                            'overflowY': 'scroll',
+                            'border': 'thin lightgrey solid'},
+            )
+        ], className='col-md-9')
+    ], className='row')
+], style={'margin': '10px 20px 20px'})
+
+@app.callback(
+    Output('stdSon', 'options'),
+    [Input('stdFather', 'value')]
+)
+def set_son_options(selected_father):
+    if selected_father is None:
+        raise PreventUpdate
+    else:
+        sonOptions = []
+        for i in selected_father:
+            # stdDict is a global varible
+            for tempOption in stdDict[i]:
+                sonOptions.append(tempOption)
+        return [{'label': i, 'value': i} for i in sonOptions]
+
+@app.callback(
+    [Output('std_table', 'data'),
+     Output('std_table', 'columns')],
+    [Input('stdSon', 'value')]
+)
+def gen_df(selected_son):
+    if selected_son is None:
+        data = deal_json(columnList[:3])
+    else:
+        data = deal_json(columnList[:3] + list(selected_son))
+    columns = [{'id':h, 'name':h} for h in data.columns]
+    return data.to_dict('records'), columns
+
+def deal_json(nameList):
+    raw_data = {}
+    for id, name in enumerate(nameList):
+        if id == 0:
+            temp = [list(i.keys()) + list(i.values())[0] for i in content[0][name]]
+        else:
+            temp = [[''] + list(i.values())[0] for i in content[0][name]]
+        raw_data[name] = [i for k in temp for i in k]
+    return pd.DataFrame(raw_data)
+
+if __name__ == '__main__':
+    # app.run_server(debug=False)
+    app.run_server(debug=False, port=8150)

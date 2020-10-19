@@ -1,0 +1,139 @@
+[2019-11-22 22:43:19 +0800] [18580] [INFO] Starting gunicorn 20.0.0
+[2019-11-22 22:43:19 +0800] [18580] [INFO] Listening at: http://127.0.0.1:8888 (18580)
+[2019-11-22 22:43:19 +0800] [18580] [INFO] Using worker: gevent
+[2019-11-22 22:43:19 +0800] [18584] [INFO] Booting worker with pid: 18584
+[2019-11-22 22:43:19 +0800] [18585] [INFO] Booting worker with pid: 18585
+[2019-11-22 22:43:43 +0800] [18580] [INFO] Handling signal: int
+[2019-11-22 22:43:43 +0800] [18584] [INFO] Worker exiting (pid: 18584)
+[2019-11-22 22:43:43 +0800] [18585] [INFO] Worker exiting (pid: 18585)
+[2019-11-22 22:43:43 +0800] [18580] [INFO] Shutting down: Master
+[2019-11-22 22:43:58 +0800] [18681] [INFO] Starting gunicorn 20.0.0
+[2019-11-22 22:43:58 +0800] [18681] [INFO] Listening at: http://127.0.0.1:8888 (18681)
+[2019-11-22 22:43:58 +0800] [18681] [INFO] Using worker: gevent
+[2019-11-22 22:43:58 +0800] [18690] [INFO] Booting worker with pid: 18690
+[2019-11-22 22:43:58 +0800] [18692] [INFO] Booting worker with pid: 18692
+[2019-11-22 22:43:59 +0800] [18690] [INFO] Worker exiting (pid: 18690)
+[2019-11-22 22:43:59 +0800] [18692] [INFO] Worker exiting (pid: 18692)
+[2019-11-22 22:44:00 +0800] [18681] [INFO] Shutting down: Master
+[2019-11-22 22:44:00 +0800] [18681] [INFO] Reason: App failed to load.
+[2019-11-22 22:44:15 +0800] [18744] [INFO] Starting gunicorn 20.0.0
+[2019-11-22 22:44:15 +0800] [18744] [INFO] Listening at: http://127.0.0.1:8888 (18744)
+[2019-11-22 22:44:15 +0800] [18744] [INFO] Using worker: gevent
+[2019-11-22 22:44:15 +0800] [18748] [INFO] Booting worker with pid: 18748
+[2019-11-22 22:44:15 +0800] [18750] [INFO] Booting worker with pid: 18750
+[2019-11-22 22:44:19 +0800] [18744] [INFO] Handling signal: int
+[2019-11-22 22:44:19 +0800] [18750] [INFO] Worker exiting (pid: 18750)
+[2019-11-22 22:44:19 +0800] [18748] [INFO] Worker exiting (pid: 18748)
+[2019-11-22 22:44:19 +0800] [18744] [INFO] Shutting down: Master
+[2019-11-22 22:45:19 +0800] [18905] [INFO] Starting gunicorn 20.0.0
+[2019-11-22 22:45:19 +0800] [18905] [INFO] Listening at: http://0.0.0.0:8888 (18905)
+[2019-11-22 22:45:19 +0800] [18905] [INFO] Using worker: gevent
+[2019-11-22 22:45:19 +0800] [18909] [INFO] Booting worker with pid: 18909
+[2019-11-22 22:45:19 +0800] [18911] [INFO] Booting worker with pid: 18911
+[2019-11-22 22:45:30 +0800] [18905] [INFO] Handling signal: int
+[2019-11-22 22:45:30 +0800] [18909] [INFO] Worker exiting (pid: 18909)
+[2019-11-22 22:45:30 +0800] [18911] [INFO] Worker exiting (pid: 18911)
+[2019-11-22 22:45:31 +0800] [18905] [INFO] Shutting down: Master
+[2019-11-22 22:47:32 +0800] [19215] [INFO] Starting gunicorn 20.0.0
+[2019-11-22 22:47:32 +0800] [19215] [INFO] Listening at: http://0.0.0.0:8888 (19215)
+[2019-11-22 22:47:32 +0800] [19215] [INFO] Using worker: gevent
+[2019-11-22 22:47:32 +0800] [19219] [INFO] Booting worker with pid: 19219
+[2019-11-22 22:47:32 +0800] [19221] [INFO] Booting worker with pid: 19221
+[2019-11-22 22:48:17 +0800] [19215] [INFO] Handling signal: int
+[2019-11-22 22:48:17 +0800] [19219] [INFO] Worker exiting (pid: 19219)
+[2019-11-22 22:48:17 +0800] [19221] [INFO] Worker exiting (pid: 19221)
+[2019-11-22 22:48:17 +0800] [19215] [INFO] Shutting down: Master
+[2019-11-22 22:52:26 +0800] [19939] [INFO] Starting gunicorn 20.0.0
+[2019-11-22 22:52:26 +0800] [19939] [INFO] Listening at: http://0.0.0.0:8888 (19939)
+[2019-11-22 22:52:26 +0800] [19939] [INFO] Using worker: gevent
+[2019-11-22 22:52:26 +0800] [19942] [INFO] Booting worker with pid: 19942
+[2019-11-22 22:52:26 +0800] [19943] [INFO] Booting worker with pid: 19943
+[2019-12-21 21:09:18 +0800] [19939] [INFO] Handling signal: term
+[2019-12-21 21:09:19 +0800] [19943] [INFO] Worker exiting (pid: 19943)
+[2019-12-21 21:09:19 +0800] [19942] [INFO] Worker exiting (pid: 19942)
+[2019-12-21 21:09:19 +0800] [19939] [INFO] Shutting down: Master
+[2019-12-21 22:45:44 +0800] [25207] [INFO] Starting gunicorn 20.0.0
+[2019-12-21 22:45:44 +0800] [25207] [INFO] Listening at: http://0.0.0.0:8888 (25207)
+[2019-12-21 22:45:44 +0800] [25207] [INFO] Using worker: gevent
+[2019-12-21 22:45:44 +0800] [25211] [INFO] Booting worker with pid: 25211
+[2019-12-21 22:45:44 +0800] [25218] [INFO] Booting worker with pid: 25218
+[2019-12-21 22:45:45 +0800] [25211] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/util.py", line 331, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.6/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 994, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 950, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'web_interface.py'; 'web_interface' is not a package
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/arbiter.py", line 583, in spawn_worker
+    worker.init_process()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/workers/ggevent.py", line 162, in init_process
+    super().init_process()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/workers/base.py", line 133, in init_process
+    self.load_wsgi()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/workers/base.py", line 142, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 49, in load
+    return self.load_wsgiapp()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 39, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/util.py", line 335, in import_app
+    raise ImportError(msg % (module.rsplit(".", 1)[0], obj))
+ImportError: Failed to find application, did you mean 'web_interface:server'?
+[2019-12-21 22:45:45 +0800] [25211] [INFO] Worker exiting (pid: 25211)
+[2019-12-21 22:45:45 +0800] [25218] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/util.py", line 331, in import_app
+    mod = importlib.import_module(module)
+  File "/usr/lib/python3.6/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 994, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 971, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 950, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'web_interface.py'; 'web_interface' is not a package
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/arbiter.py", line 583, in spawn_worker
+    worker.init_process()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/workers/ggevent.py", line 162, in init_process
+    super().init_process()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/workers/base.py", line 133, in init_process
+    self.load_wsgi()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/workers/base.py", line 142, in load_wsgi
+    self.wsgi = self.app.wsgi()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/app/base.py", line 67, in wsgi
+    self.callable = self.load()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 49, in load
+    return self.load_wsgiapp()
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/app/wsgiapp.py", line 39, in load_wsgiapp
+    return util.import_app(self.app_uri)
+  File "/home/ubuntu/.local/lib/python3.6/site-packages/gunicorn/util.py", line 335, in import_app
+    raise ImportError(msg % (module.rsplit(".", 1)[0], obj))
+ImportError: Failed to find application, did you mean 'web_interface:server'?
+[2019-12-21 22:45:45 +0800] [25218] [INFO] Worker exiting (pid: 25218)
+[2019-12-21 22:45:46 +0800] [25207] [INFO] Shutting down: Master
+[2019-12-21 22:45:46 +0800] [25207] [INFO] Reason: Worker failed to boot.
+[2019-12-21 22:48:19 +0800] [25588] [INFO] Starting gunicorn 20.0.0
+[2019-12-21 22:48:19 +0800] [25588] [INFO] Listening at: http://0.0.0.0:8888 (25588)
+[2019-12-21 22:48:19 +0800] [25588] [INFO] Using worker: gevent
+[2019-12-21 22:48:19 +0800] [25592] [INFO] Booting worker with pid: 25592
+[2019-12-21 22:48:19 +0800] [25593] [INFO] Booting worker with pid: 25593
+[2019-12-21 22:48:45 +0800] [25588] [INFO] Handling signal: int
+[2019-12-21 22:48:45 +0800] [25592] [INFO] Worker exiting (pid: 25592)
+[2019-12-21 22:48:45 +0800] [25593] [INFO] Worker exiting (pid: 25593)
+[2019-12-21 22:48:45 +0800] [25588] [INFO] Shutting down: Master
+[2019-12-21 22:48:57 +0800] [25682] [INFO] Starting gunicorn 20.0.0
+[2019-12-21 22:48:57 +0800] [25682] [INFO] Listening at: http://0.0.0.0:8888 (25682)
+[2019-12-21 22:48:57 +0800] [25682] [INFO] Using worker: gevent
+[2019-12-21 22:48:57 +0800] [25685] [INFO] Booting worker with pid: 25685
+[2019-12-21 22:48:57 +0800] [25686] [INFO] Booting worker with pid: 25686
