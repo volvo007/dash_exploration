@@ -83,14 +83,17 @@ app.layout = html.Div([
                 id='stdFather',
                 options=[{'label': k, 'value': k} for k in stdDict.keys()],
                 multi=True,
-                placeholder='Select basic ones...'
+                placeholder='Select basic ones...',
+                style={'margin': '5px 5px 20px'}
             ),
             html.P('Select standard(s) here:'),
             dcc.Dropdown(
                 id='stdSon',
                 multi=True,
-                placeholder='Select subs ones...'
+                placeholder='Select subs ones...',
+                style={'margin': '5px 5px 20px'}
             ),
+            html.P('And finally download a CSV if you need:'),
             html.A('Download table as CSV', id='my-link', download='data.csv',
                     href='', target='_blank')
         ], className='col-md-3'),
