@@ -1,7 +1,8 @@
-import json
+import json, urllib, io
 import pandas as pd
 import plotly.graph_objs as go
 import flask
+from flask import send_file
 
 import dash
 import dash_core_components as dcc
@@ -52,7 +53,7 @@ stdDict = {
 style_cell_condi = [
                     {'if': {'column_id': c},
                     'maxWidth': '100px',
-                    # 'whiteSpace': 'normal',
+                    'whiteSpace': 'normal',
                     'height': 'auto',
                     'overflow': 'hidden',
                     'dataOverfolow': 'ellipsis'} for c in columnList[:3]
@@ -89,7 +90,9 @@ app.layout = html.Div([
                 id='stdSon',
                 multi=True,
                 placeholder='Select subs ones...'
-            )
+            ),
+            html.A('Download table as CSV', id='my-link', download='data.csv',
+                    href='', target='_blank')
         ], className='col-md-3'),
         html.Div([
             html.H4('If no standard is selected, it shows only bench tests name defaultly.'),
@@ -98,17 +101,22 @@ app.layout = html.Div([
                 # columns = [{'id':h, 'name':h} for h in df.columns],
                 # data = df.to_dict('records'),
                 # fixed_rows={'headers': True, 'data': 0},
+                page_size = 300,
                 # cell means whole table, header just work for header, data for data rows
-                style_cell={'minWidth': '5px', 'maxWidth': '120px', 
-                            'overflow': 'hidden', 'margin': '2px 5px 5px',
+                style_cell={'minWidth': '5px', 
+                            'maxWidth': '120px', 
+                            'overflow': 'hidden', 
+                            # 'margin': '2px 5px 5px',
+                            # 'whiteSpace': 'normal',
                             'textOverflow': 'ellipsis', 'padding': '0.5em',
                             'minHeight': '10px', 'height': 'auto', 'textAlign': 'center'},
                 style_data_conditional=style_cell_condi,
                 style_header={'fontWeight': 'bold',
                             'textAlign': 'center',
                             'fontSize': 20},
-                style_table={'height': '900px',
-                            'width': '95%',
+                style_table={'height': 'auto',
+                            # 'whiteSpace': 'nowrap', 
+                            # 'width': '95%',
                             'overflowY': 'scroll',
                             'overflowX': 'scroll',
                             'border': 'thin lightgrey solid'},
@@ -157,7 +165,8 @@ def set_son_options(selected_father):
 
 @app.callback(
     [Output('std_table', 'data'),
-     Output('std_table', 'columns')],
+     Output('std_table', 'columns'), 
+     Output('my-link', 'href')],
     [Input('stdSon', 'value')]
 )
 def gen_df(selected_son):
@@ -168,7 +177,19 @@ def gen_df(selected_son):
     else:
         data = deal_json(columnList[:3] + list(selected_son))
     columns = [{'id':h, 'name':h} for h in data.columns]
-    return data.to_dict('records'), columns
+    # use code below if you expect a Excel file
+    # strIO = io.BytesIO()
+    # excel_writer = pd.ExcelWriter(strIO, engine='xlsxwriter')
+    # data.to_excel(excel_writer, sheet_name='sheet1')
+    # excel_writer.save()
+    # excel_data = strIO.getvalue()
+    # strIO.seek(0)
+    # in this case, we provide csv file
+    csv_string = data.to_csv(index=False, encoding='utf-8')
+    csv_string = "data:text/csv;charset=utf-8, %EF%BB%BF" + urllib.parse.quote(csv_string)
+    return data.to_dict('records'), columns, csv_string
+    # send_file(strIO, attachment_filename='data.xlsx', as_attachment=True)
+
 
 def deal_json(nameList):
     raw_data = {}
