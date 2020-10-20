@@ -66,10 +66,10 @@ app.layout = html.Div([
                     html.A('STDHD', href='/stdhd/'),
                 ),
                 html.Td(
-                    'A simple tool for HD standard checking'
+                    'A simple tool for HD rig test standard checking'
                 ),
                 html.Td(
-                    '1.0'
+                    '2.0'
                 )], className='active'
             )
         ], className='table table-striped table-hover'),
